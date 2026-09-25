@@ -10,6 +10,8 @@ export const COMPANY = {
   phoneHref: 'tel:+918878571610',
   whatsappHref: 'https://wa.me/918878571610',
   email: 'info@alkhomasi.com',
+  // Corporate Identification Number — shown in the footer when set
+  cin: '',
   addressLines: [
     '1st Floor, Utkarsh Arcade, New Shivaji Nagar, Thatipur,',
     'R.K. Puri, Gwalior, Madhya Pradesh – 474011',

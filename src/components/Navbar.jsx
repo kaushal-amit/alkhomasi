@@ -1,14 +1,17 @@
 import { useEffect, useRef, useState } from 'react'
-import { Menu, X, Mail, Phone, ArrowUpRight, Sparkles } from 'lucide-react'
+import { Menu, X, Mail, Phone, ArrowUpRight, ArrowRight, Sparkles, ChevronDown } from 'lucide-react'
 import Logo from './Logo.jsx'
 import { COMPANY } from '../data/site.js'
+import { SERVICES, serviceHref } from '../data/services.js'
+import content from '../data/content.js'
 import { useContactModal } from './ContactModalContext.jsx'
 
+// Plain links after the Solutions menu. "Our work" only appears once real
+// case studies or testimonials exist.
 const LINKS = [
-  { label: 'Solutions', href: '#solutions' },
-  { label: 'AI Agents', href: '#ai-agents' },
-  { label: 'Automation', href: '#automation' },
-  { label: 'Integration', href: '#integration' },
+  { label: 'See it in action', href: '#demos' },
+  ...(content.caseStudies.length || content.testimonials.length ? [{ label: 'Our work', href: '#work' }] : []),
+  { label: 'Why us', href: '#why' },
   { label: 'Process', href: '#how-we-work' },
   { label: 'FAQ', href: '#faq' },
 ]
@@ -33,6 +36,120 @@ function TickerItems({ copy }) {
       <a href={COMPANY.phoneHref} {...linkProps} className="flex items-center gap-2 font-semibold text-white hover:text-sky">
         <Phone size={13} /> {COMPANY.phoneDisplay}
       </a>
+    </div>
+  )
+}
+
+// Desktop "Solutions" dropdown: opens on click or hover, closes on Esc,
+// outside click, or choosing an item.
+function SolutionsMenu({ active }) {
+  const [open, setOpen] = useState(false)
+  const wrapRef = useRef(null)
+  const buttonRef = useRef(null)
+  const closeTimer = useRef(null)
+
+  useEffect(() => {
+    if (!open) return
+    const onKey = (e) => {
+      if (e.key === 'Escape') {
+        setOpen(false)
+        buttonRef.current?.focus()
+      }
+    }
+    const onPointer = (e) => !wrapRef.current?.contains(e.target) && setOpen(false)
+    const onFocus = (e) => !wrapRef.current?.contains(e.target) && setOpen(false)
+    document.addEventListener('keydown', onKey)
+    document.addEventListener('pointerdown', onPointer)
+    document.addEventListener('focusin', onFocus)
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.removeEventListener('pointerdown', onPointer)
+      document.removeEventListener('focusin', onFocus)
+    }
+  }, [open])
+
+  // When hovering has just opened the menu, the click that usually follows
+  // should keep it open rather than toggle it shut.
+  const hoverOpenedAt = useRef(0)
+  const openRef = useRef(open)
+  openRef.current = open
+
+  const hoverOpen = () => {
+    clearTimeout(closeTimer.current)
+    if (!openRef.current) hoverOpenedAt.current = Date.now()
+    openRef.current = true
+    setOpen(true)
+  }
+  const onButtonClick = () => {
+    // Hover updates may not have rendered yet, so check the timestamp, not `open`
+    if (Date.now() - hoverOpenedAt.current < 600) {
+      setOpen(true)
+      return
+    }
+    setOpen((v) => !v)
+  }
+  const hoverClose = () => {
+    closeTimer.current = setTimeout(() => {
+      openRef.current = false
+      setOpen(false)
+    }, 150)
+  }
+
+  return (
+    <div ref={wrapRef} className="relative" onMouseEnter={hoverOpen} onMouseLeave={hoverClose}>
+      <button
+        ref={buttonRef}
+        type="button"
+        aria-expanded={open}
+        aria-controls="solutions-menu"
+        onClick={onButtonClick}
+        className={`relative flex items-center gap-1 whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+          active || open ? 'text-primary' : 'text-ink/70 hover:text-ink'
+        }`}
+      >
+        Solutions
+        <ChevronDown size={15} className={`transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
+        <span
+          className={`absolute inset-x-4 -bottom-0.5 h-[2px] origin-left rounded-full bg-primary transition-transform duration-300 ${
+            active ? 'scale-x-100' : 'scale-x-0'
+          }`}
+        />
+      </button>
+
+      {open && (
+        <div id="solutions-menu" className="absolute left-1/2 top-full w-[680px] -translate-x-1/2 pt-3">
+          <div className="overflow-hidden rounded-3xl border border-ink/[0.06] bg-white shadow-card animate-popIn">
+            <ul className="grid grid-cols-2 gap-1 p-3">
+              {SERVICES.map((s) => (
+                <li key={s.key}>
+                  <a
+                    href={serviceHref(s.key)}
+                    onClick={() => setOpen(false)}
+                    className="group flex items-start gap-3 rounded-2xl p-3 transition-colors hover:bg-haze focus-visible:bg-haze"
+                  >
+                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-haze text-navy transition-colors group-hover:bg-navy group-hover:text-sky">
+                      <s.icon size={18} />
+                    </span>
+                    <span>
+                      <span className="block text-sm font-semibold text-ink group-hover:text-primary">{s.name}</span>
+                      <span className="mt-0.5 block text-xs text-mist">{s.tagline}</span>
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <div className="flex items-center justify-between border-t border-ink/[0.06] bg-haze/50 px-6 py-3.5">
+              <span className="text-xs text-mist">Not sure what you need? We'll help you find the right starting point.</span>
+              <a href="#demos" onClick={() => setOpen(false)} className="link-arrow !text-xs">
+                See it in action
+                <span className="chip !h-7 !w-7">
+                  <ArrowRight size={13} />
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
@@ -73,7 +190,7 @@ export default function Navbar() {
     if (!open) return
     const prevOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
-    menuRef.current?.querySelector('a')?.focus()
+    menuRef.current?.querySelector('a, summary')?.focus()
 
     const close = () => setOpen(false)
     const onKey = (e) => e.key === 'Escape' && close()
@@ -129,6 +246,7 @@ export default function Navbar() {
           </a>
 
           <nav className="hidden xl:flex items-center gap-1" aria-label="Primary">
+            <SolutionsMenu active={active === '#solutions'} />
             {LINKS.map((link) => (
               <a
                 key={link.href}
@@ -183,6 +301,25 @@ export default function Navbar() {
           className="xl:hidden mx-4 mt-2 max-h-[calc(100dvh-120px)] overflow-y-auto rounded-2xl border border-ink/[0.06] bg-white p-4 shadow-card animate-popIn"
         >
           <nav className="flex flex-col" aria-label="Mobile">
+            <details className="group">
+              <summary className="flex cursor-pointer list-none items-center justify-between rounded-xl px-3 py-3 text-base font-medium text-ink/80 hover:bg-haze [&::-webkit-details-marker]:hidden">
+                Solutions
+                <ChevronDown size={17} className="transition-transform group-open:rotate-180" />
+              </summary>
+              <ul className="mb-2 ml-3 border-l border-ink/[0.08] pl-2">
+                {SERVICES.map((s) => (
+                  <li key={s.key}>
+                    <a
+                      href={serviceHref(s.key)}
+                      onClick={() => setOpen(false)}
+                      className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-ink/80 hover:bg-haze hover:text-primary"
+                    >
+                      <s.icon size={16} className="text-primary" /> {s.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </details>
             {LINKS.map((link) => (
               <a
                 key={link.href}

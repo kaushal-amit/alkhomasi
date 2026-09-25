@@ -44,36 +44,58 @@ bots, and shows sending / sent / error states.
 
 ```
 src/
-  data/site.js                Company contact details + requirement types (single source)
+  data/
+    site.js                 Company details (contact, address, optional CIN)
+    services.js             The six services — shared by explorer, header menu, footer
+    content.js              Proof & trust content (stats, clients, case studies,
+                            testimonials, industries, social, legal) — see below
+    content.example.js      Bracketed placeholders for previewing layouts only
   components/
-    Navbar.jsx                Contact ticker, sticky nav with scroll-spy, mobile menu
-    Hero.jsx                  Headline, trust points + animated "live" workflow card
-    CapabilityStrip.jsx       Scrolling capability marquee
-    ServicesExplorer.jsx      Sticky dark rail + six service panels with capability tiles
-    AIAgents.jsx              Tabbed AI-agent demo (activity steps + typed reply)
-    WorkflowAutomation.jsx    Auto-playing six-step automation flow
-    BusinessSoftware.jsx      Dashboard-style interface demonstration
-    BusinessIntelligence.jsx  Analytics dashboard visual (KPIs, chart, trend line)
-    SystemIntegration.jsx     Radial integration map (ERP/CRM/APIs/Cloud/DB)
-    DigitalTransformation.jsx Before/after comparison table
-    WhyAlKhomasi.jsx          Method ring (Identify/Automate/Integrate/Scale) + 6 differentiators
-    HowWeWork.jsx             Six-step process timeline
-    FinalCTA.jsx              Closing call to action
-    FAQ.jsx                   Accordion of common questions
-    Contact.jsx               Dark info panel + requirement form
-    ContactModal.jsx          "Let's Talk" dialog (focus trap, Esc to close)
-    ContactForm.jsx           Shared form used by Contact and the modal
-    ContactModalContext.jsx   Open/close state for the modal
-    FloatingActions.jsx       "Get a Call Back" tab, WhatsApp button, back-to-top
-    Footer.jsx                Footer navigation, contact details
-    Logo.jsx, SectionHeading.jsx, Reveal.jsx   Shared building blocks
-  hooks/motion.js             Reduced-motion + in-view hooks for looping demos
-  lib/submitLead.js           Contact-form delivery (endpoint or mailto fallback)
-  entry-server.jsx            Build-time render used by scripts/prerender.mjs
-  App.jsx                     Composes all sections
-  index.css                   Tailwind + brand utility classes
-tailwind.config.js            Brand color tokens, fonts, keyframes
+    Navbar.jsx              Contact ticker, sticky nav, Solutions dropdown, mobile menu
+    Hero.jsx                Headline, trust points + animated workflow card
+    ProofStrip.jsx          Stats + client names under the hero        (content.js)
+    ServicesExplorer.jsx    Tabbed services: dark rail + capability panel
+    SeeItInAction.jsx       Tabbed interactive demos
+    demos/                  AgentDemo, WorkflowDemo, SoftwareDemo, InsightsDemo, IntegrationDemo
+    CaseStudies.jsx         Case studies + testimonials                (content.js)
+    Industries.jsx          Industries served                          (content.js)
+    WhyAlKhomasi.jsx        Method ring + six differentiators
+    HowWeWork.jsx           Six-step process timeline
+    FAQ.jsx                 Accordion of common questions
+    Contact.jsx             Dark info panel + requirement form
+    ContactModal.jsx        "Let's Talk" dialog (focus trap, Esc to close)
+    ContactForm.jsx         Shared form used by Contact and the modal
+    FloatingActions.jsx     "Get a Call Back" tab, WhatsApp button, back-to-top
+    Footer.jsx              Services, company links, contact, legal + social (content.js)
+    Logo.jsx, SectionHeading.jsx, Reveal.jsx, ContactModalContext.jsx
+  hooks/motion.js           Reduced-motion + in-view hooks for looping demos
+  lib/hashTarget.js         Deep links into tabs (#service-<key>, #demo-<key>) + tab keyboard support
+  lib/submitLead.js         Contact-form delivery (endpoint or mailto fallback)
+  entry-server.jsx          Build-time render used by scripts/prerender.mjs
+  App.jsx                   Page order
+  index.css                 Tailwind + design-system component classes
+tailwind.config.js          Type scale, radii, colors, keyframes
 ```
+
+## Adding proof & trust content
+
+`src/data/content.js` drives the **proof strip, case studies, testimonials,
+industries, social links and legal links**. Each section stays hidden until its
+field has real content, so the live site never shows placeholders or invented
+claims. Only add information that is accurate and that you have permission to
+publish.
+
+To see how these sections look before real content exists:
+
+```bash
+VITE_CONTENT_PREVIEW=true npm run dev
+```
+
+This swaps in the bracketed placeholders from `content.example.js` (never used
+in a normal build).
+
+Deep links: `#service-<key>` opens a tab in the Solutions explorer and
+`#demo-<key>` opens a demo (keys are in `src/data/services.js`).
 
 ## Design system
 

@@ -1,16 +1,12 @@
 import Navbar from './components/Navbar.jsx'
 import Hero from './components/Hero.jsx'
-import CapabilityStrip from './components/CapabilityStrip.jsx'
+import ProofStrip from './components/ProofStrip.jsx'
 import ServicesExplorer from './components/ServicesExplorer.jsx'
-import AIAgents from './components/AIAgents.jsx'
-import WorkflowAutomation from './components/WorkflowAutomation.jsx'
-import BusinessSoftware from './components/BusinessSoftware.jsx'
-import BusinessIntelligence from './components/BusinessIntelligence.jsx'
-import SystemIntegration from './components/SystemIntegration.jsx'
-import DigitalTransformation from './components/DigitalTransformation.jsx'
+import SeeItInAction from './components/SeeItInAction.jsx'
+import CaseStudies from './components/CaseStudies.jsx'
+import Industries from './components/Industries.jsx'
 import WhyAlKhomasi from './components/WhyAlKhomasi.jsx'
 import HowWeWork from './components/HowWeWork.jsx'
-import FinalCTA from './components/FinalCTA.jsx'
 import FAQ from './components/FAQ.jsx'
 import Contact from './components/Contact.jsx'
 import Footer from './components/Footer.jsx'
@@ -18,6 +14,10 @@ import ContactModal from './components/ContactModal.jsx'
 import FloatingActions from './components/FloatingActions.jsx'
 import { ContactModalProvider } from './components/ContactModalContext.jsx'
 
+// Page order: promise → proof → what we build → see it working → results →
+// who it's for → why us → how we work → questions → contact.
+// ProofStrip, CaseStudies and Industries render only once real content is
+// added in src/data/content.js.
 export default function App() {
   return (
     <ContactModalProvider>
@@ -26,17 +26,13 @@ export default function App() {
         <Navbar />
         <main>
           <Hero />
-          <CapabilityStrip />
+          <ProofStrip />
           <ServicesExplorer />
-          <AIAgents />
-          <WorkflowAutomation />
-          <BusinessSoftware />
-          <BusinessIntelligence />
-          <SystemIntegration />
-          <DigitalTransformation />
+          <SeeItInAction />
+          <CaseStudies />
+          <Industries />
           <WhyAlKhomasi />
           <HowWeWork />
-          <FinalCTA />
           <FAQ />
           <Contact />
         </main>
