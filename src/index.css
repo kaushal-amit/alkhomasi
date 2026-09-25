@@ -87,10 +87,15 @@ summary:focus-visible {
 }
 
 .gradient-text {
-  background: linear-gradient(100deg, #062B63 5%, #0868C9 45%, #168BE0 90%);
+  background: linear-gradient(100deg, #062B63 5%, #0E529B 45%, #168BE0 90%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+
+/* The logo's petal colours, used sparingly as a brand accent line */
+.bg-spectrum {
+  background: linear-gradient(90deg, #00A3AB 0%, #369500 20%, #FC9700 42%, #E83F00 62%, #C0126A 82%, #6E2A8E 100%);
 }
 
 .gradient-text-light {

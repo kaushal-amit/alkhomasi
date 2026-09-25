@@ -245,8 +245,8 @@ export default function Navbar() {
         }`}
       >
         <div className={`section-max section-pad flex items-center justify-between gap-6 transition-all duration-300 ${scrolled ? 'h-16' : 'h-[76px]'}`}>
-          <a href={page === 'home' ? '#home' : '/'} className="shrink-0">
-            <Logo />
+          <a href={page === 'home' ? '#home' : '/'} className="shrink-0 rounded-lg" aria-label="AL-KHOMASI home">
+            <Logo size={34} className={`origin-left transition-transform duration-300 ${scrolled ? 'scale-[0.9]' : ''}`} />
           </a>
 
           <nav className="hidden xl:flex items-center gap-1" aria-label="Primary">

@@ -30,7 +30,7 @@ export default function ScrollProgress() {
     <div aria-hidden="true" className="pointer-events-none fixed inset-x-0 top-0 z-[60] h-[3px]">
       <div
         ref={barRef}
-        className="h-full origin-left bg-gradient-to-r from-primary via-bright to-sky"
+        className="h-full origin-left bg-spectrum"
         style={{ transform: 'scaleX(0)' }}
       />
     </div>

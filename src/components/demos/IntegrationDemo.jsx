@@ -1,4 +1,5 @@
-import { Building2, Users, Code2, Cloud, Database, LayoutDashboard, BrainCircuit } from 'lucide-react'
+import { Building2, Users, Code2, Cloud, Database, LayoutDashboard } from 'lucide-react'
+import { LogoMark } from '../Logo.jsx'
 
 const NODES = [
   { label: 'ERP', icon: Building2, x: 50, y: 11 },
@@ -26,9 +27,9 @@ export default function IntegrationDemo() {
           ))}
         </svg>
 
-        <div className="absolute left-1/2 top-1/2 flex w-32 -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-2 rounded-2xl border border-white/20 bg-white/10 p-3.5 text-center shadow-glow md:w-36 md:p-4">
-          <span className="grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br from-bright to-primary text-white">
-            <BrainCircuit size={19} />
+        <div className="absolute left-1/2 top-1/2 flex w-32 -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-2 rounded-2xl border border-white/20 bg-navy p-3.5 text-center shadow-glow md:w-36 md:p-4">
+          <span className="grid h-11 w-14 place-items-center rounded-xl bg-white shadow-soft">
+            <LogoMark size={20} />
           </span>
           <span className="text-2xs font-semibold leading-tight text-white">AL-KHOMASI Intelligence Layer</span>
         </div>

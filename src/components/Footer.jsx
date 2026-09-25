@@ -41,10 +41,11 @@ export default function Footer() {
   return (
     <footer className="relative overflow-hidden bg-navy-ink section-pad pt-20 pb-24 text-white/70">
       <div className="pointer-events-none absolute inset-0 bg-grid-dark opacity-40" />
+      <div className="bg-spectrum absolute inset-x-0 top-0 h-[3px] opacity-80" aria-hidden="true" />
 
       <div className="section-max relative grid gap-12 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.3fr]">
         <div>
-          <Logo light />
+          <Logo light size={40} />
           <p className="mt-5 max-w-sm text-sm leading-relaxed">
             {COMPANY.tagline}. We build intelligent business solutions that automate workflows, connect
             systems and help organizations make faster, smarter decisions.

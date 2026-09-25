@@ -13,6 +13,7 @@ import {
   ShieldCheck,
 } from 'lucide-react'
 import Reveal from './Reveal.jsx'
+import { LogoMark } from './Logo.jsx'
 import { useContactModal } from './ContactModalContext.jsx'
 import { useInView, usePrefersReducedMotion } from '../hooks/motion.js'
 
@@ -71,6 +72,7 @@ export default function Hero() {
       <div className="section-max section-pad grid lg:grid-cols-[1.15fr_0.85fr] gap-14 lg:gap-16 items-center">
         <div>
           <Reveal className="inline-flex items-center gap-2 rounded-full border border-primary/15 bg-white py-1.5 pl-1.5 pr-4 text-xs font-semibold text-ink shadow-soft">
+            <LogoMark size={14} className="ml-1.5" />
             <span className="shrink-0 whitespace-nowrap rounded-full bg-gradient-to-r from-navy to-primary px-2.5 py-1 text-2xs font-bold tracking-[0.08em] text-white">
               AI-FIRST
             </span>

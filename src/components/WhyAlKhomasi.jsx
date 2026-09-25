@@ -39,7 +39,7 @@ const POINTS = [
 // Four-stage method ring — mirrors the company motto
 const STAGES = [
   { label: 'Identify', color: '#062B63' },
-  { label: 'Automate', color: '#0868C9' },
+  { label: 'Automate', color: '#0E529B' },
   { label: 'Integrate', color: '#168BE0' },
   { label: 'Scale', color: '#5CC2FF' },
 ]

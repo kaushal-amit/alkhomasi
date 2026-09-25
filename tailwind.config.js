@@ -27,7 +27,7 @@ export default {
         navy: '#062B63',
         'navy-deep': '#041B42',
         'navy-ink': '#03132F',
-        primary: '#0868C9',
+        primary: '#0E529B',
         bright: '#168BE0',
         sky: '#5CC2FF',
         haze: '#EFF7FF',

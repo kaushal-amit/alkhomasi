@@ -170,8 +170,14 @@ Typefaces: **Sora** (display/headings) + **Plus Jakarta Sans** (body), self-host
 - The site address used for canonical URLs, the sitemap, robots.txt and
   social previews is `COMPANY.siteUrl` in `src/data/site.js`
   (`https://alkhomasi.com` for now) — change it there if the domain differs.
-- `public/og-image.png` is the link-preview image; the icons are
-  `public/favicon.svg`, `apple-touch-icon.png` and `icon-512.png`. Replace them
-  when the final logo is available.
+- Brand assets live in `public/brand/`: `wordmark.webp` (blue lettering, for
+  light backgrounds), `wordmark-light.webp` (white lettering, for dark
+  backgrounds) and `mark.webp` (the petal mark alone), each with a PNG copy.
+  `src/components/Logo.jsx` renders them (`<Logo />`, `<Logo light />`,
+  `<LogoMark />`). The brand blue `primary` (#0E529B) is taken from the logo,
+  and `.bg-spectrum` (the petal colours) is used only as a thin accent line.
+- `public/og-image.png` is the link-preview image. The icons are
+  `favicon-32.png`, `favicon-64.png`, `apple-touch-icon.png`, `icon-192.png`
+  and `icon-512.png`, listed in `site.webmanifest`.
 - Contact details live in `src/data/site.js`. The WhatsApp link assumes the
   number is Indian (`+91`); update `whatsappHref` there if that changes.

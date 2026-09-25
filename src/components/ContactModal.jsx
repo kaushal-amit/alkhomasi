@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { X, Sparkles, Bot, Workflow, Network } from 'lucide-react'
 import ContactForm from './ContactForm.jsx'
+import Logo from './Logo.jsx'
 import { ContactDetails } from './Contact.jsx'
 import { COMPANY } from '../data/site.js'
 import { useContactModal } from './ContactModalContext.jsx'
@@ -80,10 +81,8 @@ export default function ContactModal() {
           <div className="pointer-events-none absolute inset-0 bg-dots-dark opacity-40" />
           <div className="glow absolute -left-32 -top-32 h-96 w-96" style={{ '--glow': 'rgba(8,104,201,0.35)' }} />
           <div className="relative flex h-full flex-col">
-            <p className="eyebrow text-sky">
-              <span className="h-px w-6 bg-sky/60" /> {COMPANY.name}
-            </p>
-            <p className="mt-4 font-display text-2xl font-semibold text-white">
+            <Logo light size={36} />
+            <p className="mt-6 font-display text-2xl font-semibold text-white">
               Intelligent solutions, built around how your business works.
             </p>
             <div className="mt-8 grid grid-cols-2 gap-3">
