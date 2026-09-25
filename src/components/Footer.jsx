@@ -23,9 +23,10 @@ const SOCIAL = [
 
 const COMPANY_LINKS = [
   { label: 'See it in action', href: '#demos' },
-  ...(content.caseStudies.length || content.testimonials.length ? [{ label: 'Our work', href: '#work' }] : []),
+  ...(content.projects.length ? [{ label: 'Projects', href: '#projects' }] : []),
   ...(content.industries.length ? [{ label: 'Industries', href: '#industries' }] : []),
-  { label: 'Why AL-KHOMASI', href: '#why' },
+  { label: 'About us', href: '#why' },
+  ...(content.testimonials.length ? [{ label: 'Client reviews', href: '#testimonials' }] : []),
   { label: 'How we work', href: '#how-we-work' },
   { label: 'FAQ', href: '#faq' },
   { label: 'Contact', href: '#contact' },
@@ -46,7 +47,8 @@ export default function Footer() {
       <div className="section-max relative grid gap-12 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.3fr]">
         <div>
           <Logo light size={40} />
-          <p className="mt-5 max-w-sm text-sm leading-relaxed">
+          <p className="mt-4 font-display text-sm font-semibold tracking-wide text-white">{COMPANY.displayName}</p>
+          <p className="mt-2 max-w-sm text-sm leading-relaxed">
             {COMPANY.tagline}. We build intelligent business solutions that automate workflows, connect
             systems and help organizations make faster, smarter decisions.
           </p>
@@ -124,7 +126,7 @@ export default function Footer() {
       <div className="section-max relative mt-16 flex flex-col-reverse gap-4 border-t border-white/10 pt-6 md:flex-row md:items-center md:justify-between">
         <div className="flex flex-col gap-2 text-xs text-white/60 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-6">
           <p suppressHydrationWarning>
-            © {new Date().getFullYear()} {COMPANY.legalName}. All rights reserved.
+            © {new Date().getFullYear()} {COMPANY.displayName} All rights reserved.
           </p>
           {COMPANY.cin && <p>CIN: {COMPANY.cin}</p>}
           {LEGAL.map((l) => (

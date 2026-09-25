@@ -3,6 +3,8 @@
 export const COMPANY = {
   name: 'AL-KHOMASI',
   legalName: 'AL-KHOMASI SOFTWARE PRIVATE LIMITED',
+  // How the company name is written in visible copy (header, footer, about)
+  displayName: 'Al Khomasi Software Pvt. Ltd.',
   // Public site address — used for canonical URLs, sitemap and social previews
   siteUrl: 'https://alkhomasi.com',
   tagline: 'AI Solutions & Digital Transformation Partner',

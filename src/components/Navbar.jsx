@@ -7,12 +7,13 @@ import { usePage, useHomeHref } from '../lib/page.jsx'
 import content from '../data/content.js'
 import { useContactModal } from './ContactModalContext.jsx'
 
-// Plain links after the Solutions menu. "Our work" only appears once real
-// case studies or testimonials exist.
+// Plain links after the Solutions menu. "Projects" and "Reviews" only appear
+// once real entries exist in src/data/content.js.
 const LINKS = [
   { label: 'See it in action', href: '#demos' },
-  ...(content.caseStudies.length || content.testimonials.length ? [{ label: 'Our work', href: '#work' }] : []),
-  { label: 'Why us', href: '#why' },
+  ...(content.projects.length ? [{ label: 'Projects', href: '#projects' }] : []),
+  { label: 'About', href: '#why' },
+  ...(content.testimonials.length ? [{ label: 'Reviews', href: '#testimonials' }] : []),
   { label: 'Process', href: '#how-we-work' },
   { label: 'FAQ', href: '#faq' },
 ]
@@ -245,8 +246,17 @@ export default function Navbar() {
         }`}
       >
         <div className={`section-max section-pad flex items-center justify-between gap-6 transition-all duration-300 ${scrolled ? 'h-16' : 'h-[76px]'}`}>
-          <a href={page === 'home' ? '#home' : '/'} className="shrink-0 rounded-lg" aria-label="AL-KHOMASI home">
-            <Logo size={34} className={`origin-left transition-transform duration-300 ${scrolled ? 'scale-[0.9]' : ''}`} />
+          <a
+            href={page === 'home' ? '#home' : '/'}
+            className={`flex shrink-0 items-center gap-3 rounded-lg transition-transform duration-300 origin-left ${scrolled ? 'scale-[0.92]' : ''}`}
+            aria-label={`${COMPANY.displayName} — home`}
+          >
+            <Logo size={34} />
+            <span aria-hidden="true" className="block border-l border-ink/10 pl-3 font-display text-2xs font-semibold uppercase leading-[1.35] tracking-[0.14em] text-mist sm:block">
+              Software
+              <br />
+              Pvt. Ltd.
+            </span>
           </a>
 
           <nav className="hidden xl:flex items-center gap-1" aria-label="Primary">

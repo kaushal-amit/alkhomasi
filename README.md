@@ -68,7 +68,7 @@ src/
   data/
     site.js                 Company details (contact, address, optional CIN)
     services.js             The six services — shared by explorer, header menu, footer
-    content.js              Proof & trust content (stats, clients, case studies,
+    content.js              Proof & trust content (stats, clients, projects,
                             testimonials, industries, social, legal) — see below
     content.example.js      Bracketed placeholders for previewing layouts only
   components/
@@ -78,9 +78,10 @@ src/
     ServicesExplorer.jsx    Tabbed services: dark rail + capability panel
     SeeItInAction.jsx       Tabbed interactive demos
     demos/                  AgentDemo, WorkflowDemo, SoftwareDemo, InsightsDemo, IntegrationDemo
-    CaseStudies.jsx         Case studies + testimonials                (content.js)
+    Projects.jsx            Projects showcase with service filter      (content.js)
+    Testimonials.jsx        Client reviews carousel                    (content.js)
     Industries.jsx          Industries served                          (content.js)
-    WhyAlKhomasi.jsx        Method ring + six differentiators
+    WhyAlKhomasi.jsx        About + method orbit + six differentiators
     HowWeWork.jsx           Six-step process timeline
     FAQ.jsx                 Accordion of common questions
     Contact.jsx             Dark info panel + requirement form
@@ -104,7 +105,7 @@ tailwind.config.js          Type scale, radii, colors, keyframes
 
 ## Adding proof & trust content
 
-`src/data/content.js` drives the **proof strip, case studies, testimonials,
+`src/data/content.js` drives the **proof strip, projects, client reviews,
 industries, social links and legal links**. Each section stays hidden until its
 field has real content, so the live site never shows placeholders or invented
 claims. Only add information that is accurate and that you have permission to

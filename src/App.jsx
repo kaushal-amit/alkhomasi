@@ -4,7 +4,8 @@ import Hero from './components/Hero.jsx'
 import ProofStrip from './components/ProofStrip.jsx'
 import ServicesExplorer from './components/ServicesExplorer.jsx'
 import SeeItInAction from './components/SeeItInAction.jsx'
-import CaseStudies from './components/CaseStudies.jsx'
+import Projects from './components/Projects.jsx'
+import Testimonials from './components/Testimonials.jsx'
 import Industries from './components/Industries.jsx'
 import WhyAlKhomasi from './components/WhyAlKhomasi.jsx'
 import HowWeWork from './components/HowWeWork.jsx'
@@ -22,9 +23,9 @@ import { resolveRoute, getMeta } from './lib/routes.js'
 import { initSpotlight } from './lib/spotlight.js'
 
 // Home page order: promise → proof → what we build → see it working →
-// results → who it's for → why us → how we work → questions → contact.
-// ProofStrip, CaseStudies and Industries render only once real content is
-// added in src/data/content.js.
+// projects → who it's for → about / why us → how we work → client reviews →
+// questions → contact. ProofStrip, Projects, Industries and Testimonials render
+// only once real content is added in src/data/content.js.
 function HomePage() {
   return (
     <>
@@ -32,10 +33,11 @@ function HomePage() {
       <ProofStrip />
       <ServicesExplorer />
       <SeeItInAction />
-      <CaseStudies />
+      <Projects />
       <Industries />
       <WhyAlKhomasi />
       <HowWeWork />
+      <Testimonials />
       <FAQ />
       <Contact />
     </>

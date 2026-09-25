@@ -19,10 +19,23 @@ const content = {
   // a path under /public (e.g. '/clients/acme.svg'); without it the name is shown.
   clients: [],
 
-  // Short case studies: { client, industry, title, challenge, solution, results: ['...'], services: ['AI Agents'] }
-  caseStudies: [],
+  // Projects for the "Projects" section. Only publish work you have permission to show.
+  // {
+  //   title: 'Headline of the project',
+  //   client: 'Client name',            // or a description, e.g. 'A regional logistics company'
+  //   industry: 'Logistics',
+  //   year: '2025',                     // optional
+  //   summary: 'One or two sentences on what was built and why.',
+  //   challenge: '...', solution: '...',// optional, shown on the card
+  //   results: ['Measured result'],     // optional
+  //   services: ['AI Agents'],          // names from src/data/services.js (name or shortName)
+  //   image: '/projects/acme.webp',     // optional cover under /public; a branded cover is drawn without it
+  //   href: 'https://…',                // optional link to a live product or write-up
+  // }
+  projects: [],
 
-  // Testimonials you have permission to publish: { quote, name, role, company }
+  // Client reviews you have permission to publish:
+  // { quote, name, role, company, rating: 5 (optional, 1–5), photo: '/clients/jane.webp' (optional) }
   testimonials: [],
 
   // Industries you serve: { name, desc }  (icon is chosen automatically)

@@ -59,6 +59,13 @@ export default {
           from: { opacity: '0' },
           to: { opacity: '1' },
         },
+        orbit: {
+          to: { transform: 'rotate(360deg)' },
+        },
+        slideIn: {
+          from: { opacity: '0', transform: 'translateX(24px)' },
+          to: { opacity: '1', transform: 'translateX(0)' },
+        },
         popIn: {
           from: { opacity: '0', transform: 'translateY(16px) scale(0.98)' },
           to: { opacity: '1', transform: 'translateY(0) scale(1)' },
@@ -68,6 +75,8 @@ export default {
         'marquee-slow': 'marquee 60s linear infinite',
         ring: 'ring 1.8s cubic-bezier(0.16,1,0.3,1) infinite',
         fadeIn: 'fadeIn 0.25s ease-out both',
+        orbit: 'orbit 90s linear infinite',
+        slideIn: 'slideIn 0.5s cubic-bezier(0.16,1,0.3,1) both',
         popIn: 'popIn 0.4s cubic-bezier(0.16,1,0.3,1) both',
       },
     },
