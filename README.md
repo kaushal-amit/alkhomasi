@@ -22,10 +22,24 @@ npm run preview
 The production build is output to `dist/`, ready to deploy to any static host
 (Vercel, Netlify, S3 + CloudFront, etc.).
 
-`npm run build` also **prerenders** the page: it renders the React app to HTML
-at build time (`src/entry-server.jsx` → `scripts/prerender.mjs`) and injects it
-into `dist/index.html`, which the browser then hydrates. The page is therefore
-readable by search engines, link previews and visitors without JavaScript.
+`npm run build` also **prerenders every page** (`src/entry-server.jsx` →
+`scripts/prerender.mjs`):
+
+| URL | Page |
+|-----|------|
+| `/` | Home |
+| `/services/<slug>/` | One page per service (slugs in `src/data/services.js`) |
+| `404.html` | Not-found page (served by most static hosts for unknown URLs) |
+
+Each page gets its own `<title>`, description, canonical URL, Open Graph /
+Twitter tags and JSON-LD (Organization, Service, Breadcrumb). The build also
+writes `sitemap.xml` and `robots.txt` from `COMPANY.siteUrl` in
+`src/data/site.js` — **update `siteUrl` if the domain is not
+`https://alkhomasi.com`**. Pages are readable by search engines, link previews
+and visitors without JavaScript, then hydrate in the browser.
+
+Deploy the whole `dist/` folder to any static host. Directory URLs
+(`/services/ai-agents/`) map to `dist/services/ai-agents/index.html`.
 
 ## Contact form
 
@@ -72,6 +86,10 @@ src/
   lib/hashTarget.js         Deep links into tabs (#service-<key>, #demo-<key>) + tab keyboard support
   lib/submitLead.js         Contact-form delivery (endpoint or mailto fallback)
   entry-server.jsx          Build-time render used by scripts/prerender.mjs
+  lib/routes.js             Routes + per-page <head> metadata and JSON-LD
+  lib/page.jsx              Current-page context (links to home sections from other pages)
+  lib/spotlight.js          Pointer-following highlight
+  components/ServicePage.jsx, NotFound.jsx, ScrollProgress.jsx, CountUp.jsx
   App.jsx                   Page order
   index.css                 Tailwind + design-system component classes
 tailwind.config.js          Type scale, radii, colors, keyframes
@@ -114,7 +132,13 @@ one-off values:
   `section-y-sm` for supporting sections.
 - **Contrast:** small text on navy uses at least `text-white/60`.
 - **Motion:** looping demos pause when off-screen and respect
-  `prefers-reduced-motion` (`src/hooks/motion.js`).
+  `prefers-reduced-motion` (`src/hooks/motion.js`). Micro-interactions: a
+  reading-progress bar, a pointer-following highlight on primary buttons and
+  link cards (`spotlight`), and stat count-ups (`CountUp.jsx`).
+- **Glows:** use the `glow` class (a radial gradient) instead of blurred
+  shapes — much cheaper to paint.
+- **Fonts:** Sora and Plus Jakarta Sans are self-hosted (Latin subset, from
+  `@fontsource-variable/*`) and preloaded by a small plugin in `vite.config.js`.
 
 ## Brand tokens
 
@@ -128,8 +152,7 @@ one-off values:
 | `navy-deep`| `#041B42` |
 | `sky`      | `#5CC2FF` |
 
-Typefaces: **Sora** (display/headings) + **Plus Jakarta Sans** (body), loaded via Google Fonts
-in `index.html`.
+Typefaces: **Sora** (display/headings) + **Plus Jakarta Sans** (body), self-hosted.
 
 ## Notes
 
@@ -137,7 +160,11 @@ in `index.html`.
   no invented clients, stats, testimonials or claims.
 - The AI-agent, workflow, dashboard and integration visuals are clearly framed
   as capability demonstrations, not live product screenshots or real data.
-- `public/robots.txt` and `public/sitemap.xml` assume the site is served at
-  `https://alkhomasi.com/` — update both if the domain differs.
+- The site address used for canonical URLs, the sitemap, robots.txt and
+  social previews is `COMPANY.siteUrl` in `src/data/site.js`
+  (`https://alkhomasi.com` for now) — change it there if the domain differs.
+- `public/og-image.png` is the link-preview image; the icons are
+  `public/favicon.svg`, `apple-touch-icon.png` and `icon-512.png`. Replace them
+  when the final logo is available.
 - Contact details live in `src/data/site.js`. The WhatsApp link assumes the
   number is Indian (`+91`); update `whatsappHref` there if that changes.

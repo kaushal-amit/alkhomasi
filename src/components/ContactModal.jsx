@@ -78,7 +78,7 @@ export default function ContactModal() {
         {/* Info side */}
         <div className="relative hidden p-10 lg:block">
           <div className="pointer-events-none absolute inset-0 bg-dots-dark opacity-40" />
-          <div className="pointer-events-none absolute -left-20 -top-20 h-72 w-72 rounded-full bg-primary/30 blur-3xl" />
+          <div className="glow absolute -left-32 -top-32 h-96 w-96" style={{ '--glow': 'rgba(8,104,201,0.35)' }} />
           <div className="relative flex h-full flex-col">
             <p className="eyebrow text-sky">
               <span className="h-px w-6 bg-sky/60" /> {COMPANY.name}

@@ -45,7 +45,7 @@ export default function Contact() {
           {/* Info panel */}
           <div className="relative p-7 md:p-12">
             <div className="pointer-events-none absolute inset-0 bg-dots-dark opacity-40" />
-            <div className="pointer-events-none absolute -left-24 top-10 h-72 w-72 rounded-full bg-primary/30 blur-3xl" />
+            <div className="glow absolute -left-32 top-0 h-96 w-96" style={{ '--glow': 'rgba(8,104,201,0.35)' }} />
             <div className="relative">
               <p className="eyebrow text-sky">
                 <span className="h-px w-6 bg-sky/60" /> Contact

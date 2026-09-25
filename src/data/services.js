@@ -44,6 +44,7 @@ import {
 export const SERVICES = [
   {
     key: 'ai',
+    slug: 'ai-solutions',
     icon: Sparkles,
     name: 'AI Solutions',
     tagline: 'Intelligent business applications',
@@ -61,6 +62,7 @@ export const SERVICES = [
   },
   {
     key: 'agents',
+    slug: 'ai-agents',
     icon: Bot,
     name: 'AI Agents',
     tagline: 'Digital teammates for daily operations',
@@ -78,6 +80,7 @@ export const SERVICES = [
   },
   {
     key: 'automation',
+    slug: 'workflow-automation',
     icon: Workflow,
     name: 'Workflow Automation',
     tagline: 'Remove repetitive manual work',
@@ -95,6 +98,7 @@ export const SERVICES = [
   },
   {
     key: 'software',
+    slug: 'business-software',
     icon: LayoutDashboard,
     name: 'Business Software',
     tagline: 'Platforms built around you',
@@ -112,6 +116,7 @@ export const SERVICES = [
   },
   {
     key: 'data',
+    slug: 'data-business-intelligence',
     icon: BarChart3,
     name: 'Data & Business Intelligence',
     shortName: 'Data & BI',
@@ -130,6 +135,7 @@ export const SERVICES = [
   },
   {
     key: 'integration',
+    slug: 'system-integration',
     icon: Network,
     name: 'System Integration',
     tagline: 'One connected business',
@@ -148,4 +154,6 @@ export const SERVICES = [
 ]
 
 export const serviceHref = (key) => `#service-${key}`
+export const servicePath = (s) => `/services/${s.slug}/`
+export const serviceBySlug = (slug) => SERVICES.find((s) => s.slug === slug)
 export const demoHref = (key) => `#demo-${key}`

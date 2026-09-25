@@ -2,7 +2,7 @@ import { useRef, useState } from 'react'
 import { ArrowRight, ArrowUpRight, MessageSquare } from 'lucide-react'
 import SectionHeading from './SectionHeading.jsx'
 import Reveal from './Reveal.jsx'
-import { SERVICES, demoHref } from '../data/services.js'
+import { SERVICES, demoHref, servicePath } from '../data/services.js'
 import { useHashTarget, tabKeyHandler } from '../lib/hashTarget.js'
 import { useContactModal } from './ContactModalContext.jsx'
 
@@ -97,7 +97,7 @@ export default function ServicesExplorer() {
             aria-labelledby={`service-tab-${active}`}
             className="card-surface relative min-w-0 overflow-hidden p-6 md:p-10"
           >
-            <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-gradient-to-br from-bright/10 to-transparent blur-2xl" />
+            <div className="glow absolute -right-32 -top-32 h-96 w-96" style={{ '--glow': 'rgba(22,139,224,0.12)' }} />
             <div key={active} className="relative animate-popIn">
               <div className="flex items-center gap-3">
                 <span className="grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br from-navy to-primary text-white shadow-soft">
@@ -126,6 +126,12 @@ export default function ServicesExplorer() {
               </ul>
 
               <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
+                <a href={servicePath(service)} className="link-arrow">
+                  Explore {service.shortName ?? service.name}
+                  <span className="chip">
+                    <ArrowRight size={14} />
+                  </span>
+                </a>
                 <a href={demoHref(service.demo)} className="link-arrow">
                   See it in action
                   <span className="chip">

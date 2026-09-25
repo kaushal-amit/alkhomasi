@@ -1,7 +1,8 @@
 import { Mail, Phone, MapPin, ArrowUpRight, Linkedin, Instagram, Facebook, Youtube } from 'lucide-react'
 import Logo from './Logo.jsx'
 import { COMPANY } from '../data/site.js'
-import { SERVICES, serviceHref } from '../data/services.js'
+import { SERVICES, servicePath } from '../data/services.js'
+import { useHomeHref } from '../lib/page.jsx'
 import content from '../data/content.js'
 
 function XIcon({ size = 16 }) {
@@ -36,6 +37,7 @@ const LEGAL = [
 ].filter((l) => l.href)
 
 export default function Footer() {
+  const home = useHomeHref()
   return (
     <footer className="relative overflow-hidden bg-navy-ink section-pad pt-20 pb-24 text-white/70">
       <div className="pointer-events-none absolute inset-0 bg-grid-dark opacity-40" />
@@ -74,7 +76,7 @@ export default function Footer() {
           <ul className="mt-5 space-y-3">
             {SERVICES.map((s) => (
               <li key={s.key}>
-                <a href={serviceHref(s.key)} className="text-sm transition-colors hover:text-white">
+                <a href={servicePath(s)} className="text-sm transition-colors hover:text-white">
                   {s.name}
                 </a>
               </li>
@@ -87,7 +89,7 @@ export default function Footer() {
           <ul className="mt-5 space-y-3">
             {COMPANY_LINKS.map((l) => (
               <li key={l.href}>
-                <a href={l.href} className="text-sm transition-colors hover:text-white">
+                <a href={l.href === '#contact' ? l.href : home(l.href)} className="text-sm transition-colors hover:text-white">
                   {l.label}
                 </a>
               </li>

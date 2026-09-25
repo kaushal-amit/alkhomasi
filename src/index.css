@@ -1,3 +1,20 @@
+/* Self-hosted variable fonts (Latin subset only). Preloaded by the
+   `preload-fonts` plugin in vite.config.js. */
+@font-face {
+  font-family: 'Sora';
+  font-style: normal;
+  font-weight: 100 800;
+  font-display: swap;
+  src: url('../node_modules/@fontsource-variable/sora/files/sora-latin-wght-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url('../node_modules/@fontsource-variable/plus-jakarta-sans/files/plus-jakarta-sans-latin-wght-normal.woff2') format('woff2');
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -41,6 +58,24 @@ summary:focus-visible {
   outline: 2px solid #168BE0;
   outline-offset: 3px;
   border-radius: 4px;
+}
+
+/* Keyboard users can jump straight past the header */
+.skip-link {
+  position: fixed;
+  left: 16px;
+  top: -64px;
+  z-index: 100;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: #062B63;
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+  transition: top 0.2s;
+}
+.skip-link:focus {
+  top: 12px;
 }
 
 .section-pad {
@@ -129,6 +164,35 @@ summary:focus-visible {
 
 .field-input {
   @apply w-full border-0 border-b border-ink/15 bg-transparent px-0 py-2.5 text-base text-ink placeholder:text-mist outline-none transition-colors focus:border-primary focus:ring-0;
+}
+
+/* Soft colour glow — a radial gradient instead of a blurred shape, which is
+   far cheaper to paint. Set the colour with style={{ '--glow': 'rgba(...)' }}. */
+.glow {
+  pointer-events: none;
+  background: radial-gradient(closest-side, var(--glow, rgba(22,139,224,0.2)), transparent);
+}
+
+/* Pointer-following highlight (driven by src/lib/spotlight.js) */
+.spotlight,
+.btn-primary {
+  position: relative;
+  isolation: isolate;
+}
+.spotlight::after,
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  background: radial-gradient(180px circle at var(--mx, 50%) var(--my, 50%), rgba(92, 194, 255, 0.16), transparent 70%);
+}
+.spotlight:hover::after,
+.btn-primary:hover::after {
+  opacity: 1;
 }
 
 .bg-grid-dark {

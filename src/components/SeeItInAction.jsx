@@ -10,7 +10,7 @@ import IntegrationDemo from './demos/IntegrationDemo.jsx'
 import { useHashTarget, tabKeyHandler } from '../lib/hashTarget.js'
 import { useContactModal } from './ContactModalContext.jsx'
 
-const DEMOS = [
+export const DEMOS = [
   {
     key: 'agents',
     icon: Bot,

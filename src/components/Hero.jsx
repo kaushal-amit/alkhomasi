@@ -64,13 +64,13 @@ export default function Hero() {
             WebkitMaskImage: 'radial-gradient(ellipse 70% 60% at 50% 30%, black, transparent 75%)',
           }}
         />
-        <div className="absolute -top-24 right-[-10%] h-[34rem] w-[34rem] rounded-full bg-bright/20 blur-[120px] animate-drift" />
-        <div className="absolute top-1/3 left-[-15%] h-[26rem] w-[26rem] rounded-full bg-primary/10 blur-[110px] animate-drift" />
+        <div className="glow absolute -top-40 right-[-15%] h-[44rem] w-[44rem]" style={{ '--glow': 'rgba(22,139,224,0.22)' }} />
+        <div className="glow absolute top-1/4 left-[-20%] h-[36rem] w-[36rem]" style={{ '--glow': 'rgba(8,104,201,0.12)' }} />
       </div>
 
       <div className="section-max section-pad grid lg:grid-cols-[1.15fr_0.85fr] gap-14 lg:gap-16 items-center">
         <div>
-          <Reveal className="inline-flex items-center gap-2 rounded-full border border-primary/15 bg-white/80 py-1.5 pl-1.5 pr-4 text-xs font-semibold text-ink shadow-soft backdrop-blur">
+          <Reveal className="inline-flex items-center gap-2 rounded-full border border-primary/15 bg-white py-1.5 pl-1.5 pr-4 text-xs font-semibold text-ink shadow-soft">
             <span className="shrink-0 whitespace-nowrap rounded-full bg-gradient-to-r from-navy to-primary px-2.5 py-1 text-2xs font-bold tracking-[0.08em] text-white">
               AI-FIRST
             </span>
@@ -116,10 +116,10 @@ export default function Hero() {
 
         {/* Live workflow visualization */}
         <Reveal delay={200} className="relative mx-auto w-full max-w-[26rem]">
-          <div className="absolute -inset-6 -z-10 rounded-3xl bg-gradient-to-br from-primary/15 via-bright/5 to-transparent blur-2xl" />
+          <div className="glow absolute -inset-10 -z-10" style={{ '--glow': 'rgba(8,104,201,0.18)' }} />
           <div className="card-dark border border-white/10 p-6">
             <div className="pointer-events-none absolute inset-0 bg-grid-dark opacity-60" />
-            <div className="pointer-events-none absolute -top-20 -right-16 h-56 w-56 rounded-full bg-bright/25 blur-3xl" />
+            <div className="glow absolute -top-28 -right-24 h-72 w-72" style={{ '--glow': 'rgba(22,139,224,0.3)' }} />
 
             <div className="relative flex items-center justify-between border-b border-white/10 pb-4">
               <span className="text-2xs font-semibold tracking-[0.14em] text-white/55">

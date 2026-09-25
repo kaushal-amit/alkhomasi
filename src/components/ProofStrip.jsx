@@ -1,5 +1,6 @@
 import content from '../data/content.js'
 import Reveal from './Reveal.jsx'
+import CountUp from './CountUp.jsx'
 
 // Headline numbers + client names directly under the hero.
 // Renders nothing until real stats or clients are added in src/data/content.js.
@@ -15,7 +16,9 @@ export default function ProofStrip() {
             {stats.map((s) => (
               <div key={s.label} className="flex flex-col-reverse gap-1 border-l-2 border-primary/20 pl-5">
                 <dt className="text-sm text-mist">{s.label}</dt>
-                <dd className="font-display text-h3 font-semibold text-navy">{s.value}</dd>
+                <dd className="font-display text-h3 font-semibold text-navy">
+                  <CountUp value={s.value} />
+                </dd>
               </div>
             ))}
           </Reveal>

@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import { Menu, X, Mail, Phone, ArrowUpRight, ArrowRight, Sparkles, ChevronDown } from 'lucide-react'
 import Logo from './Logo.jsx'
 import { COMPANY } from '../data/site.js'
-import { SERVICES, serviceHref } from '../data/services.js'
+import { SERVICES, servicePath } from '../data/services.js'
+import { usePage, useHomeHref } from '../lib/page.jsx'
 import content from '../data/content.js'
 import { useContactModal } from './ContactModalContext.jsx'
 
@@ -44,6 +45,7 @@ function TickerItems({ copy }) {
 // outside click, or choosing an item.
 function SolutionsMenu({ active }) {
   const [open, setOpen] = useState(false)
+  const home = useHomeHref()
   const wrapRef = useRef(null)
   const buttonRef = useRef(null)
   const closeTimer = useRef(null)
@@ -123,9 +125,9 @@ function SolutionsMenu({ active }) {
               {SERVICES.map((s) => (
                 <li key={s.key}>
                   <a
-                    href={serviceHref(s.key)}
+                    href={servicePath(s)}
                     onClick={() => setOpen(false)}
-                    className="group flex items-start gap-3 rounded-2xl p-3 transition-colors hover:bg-haze focus-visible:bg-haze"
+                    className="spotlight group flex items-start gap-3 rounded-2xl p-3 transition-colors hover:bg-haze focus-visible:bg-haze"
                   >
                     <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-haze text-navy transition-colors group-hover:bg-navy group-hover:text-sky">
                       <s.icon size={18} />
@@ -140,7 +142,7 @@ function SolutionsMenu({ active }) {
             </ul>
             <div className="flex items-center justify-between border-t border-ink/[0.06] bg-haze/50 px-6 py-3.5">
               <span className="text-xs text-mist">Not sure what you need? We'll help you find the right starting point.</span>
-              <a href="#demos" onClick={() => setOpen(false)} className="link-arrow !text-xs">
+              <a href={home('#demos')} onClick={() => setOpen(false)} className="link-arrow !text-xs">
                 See it in action
                 <span className="chip !h-7 !w-7">
                   <ArrowRight size={13} />
@@ -159,6 +161,8 @@ export default function Navbar() {
   const [open, setOpen] = useState(false)
   const [active, setActive] = useState('')
   const { open: openModal } = useContactModal()
+  const { page } = usePage()
+  const home = useHomeHref()
   const toggleRef = useRef(null)
   const menuRef = useRef(null)
 
@@ -224,7 +228,7 @@ export default function Navbar() {
         }`}
       >
         <div className="marquee-pause py-2.5">
-          <div className="flex w-max animate-marquee-slow items-center gap-14 whitespace-nowrap pl-14">
+          <div className={`flex w-max animate-marquee-slow items-center gap-14 whitespace-nowrap pl-14 ${scrolled ? '[animation-play-state:paused]' : ''}`}>
             {[0, 1, 2, 3].map((copy) => (
               <TickerItems key={copy} copy={copy} />
             ))}
@@ -241,16 +245,16 @@ export default function Navbar() {
         }`}
       >
         <div className={`section-max section-pad flex items-center justify-between gap-6 transition-all duration-300 ${scrolled ? 'h-16' : 'h-[76px]'}`}>
-          <a href="#home" className="shrink-0">
+          <a href={page === 'home' ? '#home' : '/'} className="shrink-0">
             <Logo />
           </a>
 
           <nav className="hidden xl:flex items-center gap-1" aria-label="Primary">
-            <SolutionsMenu active={active === '#solutions'} />
+            <SolutionsMenu active={page === 'service' || active === '#solutions'} />
             {LINKS.map((link) => (
               <a
                 key={link.href}
-                href={link.href}
+                href={home(link.href)}
                 aria-current={active === link.href ? 'location' : undefined}
                 className={`relative whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium transition-colors ${
                   active === link.href ? 'text-primary' : 'text-ink/70 hover:text-ink'
@@ -310,7 +314,7 @@ export default function Navbar() {
                 {SERVICES.map((s) => (
                   <li key={s.key}>
                     <a
-                      href={serviceHref(s.key)}
+                      href={servicePath(s)}
                       onClick={() => setOpen(false)}
                       className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-ink/80 hover:bg-haze hover:text-primary"
                     >
@@ -323,7 +327,7 @@ export default function Navbar() {
             {LINKS.map((link) => (
               <a
                 key={link.href}
-                href={link.href}
+                href={home(link.href)}
                 onClick={() => setOpen(false)}
                 className="rounded-xl px-3 py-3 text-base font-medium text-ink/80 hover:bg-haze hover:text-primary"
               >
