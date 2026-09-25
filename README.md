@@ -41,6 +41,13 @@ and visitors without JavaScript, then hydrate in the browser.
 Deploy the whole `dist/` folder to any static host. Directory URLs
 (`/services/ai-agents/`) map to `dist/services/ai-agents/index.html`.
 
+**Firebase Hosting** is configured in `firebase.json` and deployed by
+`.github/workflows/firebase-deploy.yml` on every push to this branch. There is
+no catch-all rewrite, so unknown URLs get `404.html` with a real 404 status;
+`trailingSlash` makes `/services/ai-agents` redirect to `/services/ai-agents/`;
+hashed files under `/assets/` are cached for a year. The workflow needs the
+`FIREBASE_SERVICE_ACCOUNT` secret to contain the full service-account JSON key.
+
 ## Contact form
 
 Submissions go through `src/lib/submitLead.js`:

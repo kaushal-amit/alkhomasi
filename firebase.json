@@ -1,16 +1,19 @@
 {
   "hosting": {
-    "site": "alkhomasi-2025", 
+    "site": "alkhomasi-2025",
     "public": "dist",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
     ],
-    "rewrites": [
+    "trailingSlash": true,
+    "headers": [
       {
-        "source": "**",
-        "destination": "/index.html"
+        "source": "/assets/**",
+        "headers": [
+          { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+        ]
       }
     ]
   }
