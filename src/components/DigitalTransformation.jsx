@@ -26,7 +26,7 @@ const ROWS = [
 
 export default function DigitalTransformation() {
   return (
-    <section className="section-pad py-24 md:py-32">
+    <section className="section-pad section-y-sm">
       <div className="section-max">
         <SectionHeading
           align="center"
@@ -37,9 +37,9 @@ export default function DigitalTransformation() {
 
         <Reveal delay={120} className="mx-auto mt-14 max-w-4xl overflow-hidden rounded-3xl border border-ink/[0.07] bg-white shadow-card">
           <div className="grid grid-cols-[1fr_auto_1fr] items-center border-b border-ink/[0.06] bg-haze/60 px-4 py-4 md:px-8">
-            <p className="text-[11.5px] font-semibold tracking-[0.14em] text-mist">BEFORE</p>
+            <p className="text-2xs font-semibold tracking-[0.14em] text-mist">BEFORE</p>
             <span className="w-10 md:w-16" />
-            <p className="text-[11.5px] font-semibold tracking-[0.14em] text-primary">AFTER AL-KHOMASI</p>
+            <p className="text-2xs font-semibold tracking-[0.14em] text-primary">AFTER AL-KHOMASI</p>
           </div>
           <ul>
             {ROWS.map((row, i) => (
@@ -49,18 +49,18 @@ export default function DigitalTransformation() {
                   i < ROWS.length - 1 ? 'border-b border-ink/[0.05]' : ''
                 }`}
               >
-                <span className="flex items-center gap-3 text-[14px] md:text-[15px] text-ink/55">
-                  <span className="hidden sm:grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-ink/[0.04] text-ink/40">
+                <span className="flex items-center gap-3 text-sm md:text-base text-ink/55">
+                  <span className="hidden sm:grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-ink/[0.04] text-ink/40">
                     <row.before.icon size={15} />
                   </span>
-                  <X size={14} className="sm:hidden shrink-0 text-ink/30" />
+                  <X size={14} className="sm:hidden shrink-0 text-mist" />
                   <span className="line-through decoration-ink/20">{row.before.label}</span>
                 </span>
                 <span className="mx-2 grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br from-navy to-primary text-white md:mx-4">
                   <ArrowRight size={14} />
                 </span>
-                <span className="flex items-center gap-3 text-[14px] md:text-[15px] font-semibold text-ink">
-                  <span className="hidden sm:grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-primary/10 text-primary">
+                <span className="flex items-center gap-3 text-sm md:text-base font-semibold text-ink">
+                  <span className="hidden sm:grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary">
                     <row.after.icon size={15} />
                   </span>
                   <Check size={14} className="sm:hidden shrink-0 text-primary" />

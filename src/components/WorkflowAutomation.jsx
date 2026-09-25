@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Inbox, Eye, ShieldCheck, CheckCircle2, Zap, FileText, Pause, Play } from 'lucide-react'
 import SectionHeading from './SectionHeading.jsx'
 import Reveal from './Reveal.jsx'
+import { useInView, usePrefersReducedMotion } from '../hooks/motion.js'
 
 const NODES = [
   {
@@ -45,12 +46,21 @@ const OUTCOMES = [
 export default function WorkflowAutomation() {
   const [active, setActive] = useState(0)
   const [playing, setPlaying] = useState(true)
+  const flowRef = useRef(null)
+  const inView = useInView(flowRef)
+  const reducedMotion = usePrefersReducedMotion()
 
+  // Never auto-advance for reduced-motion users; they step through manually
   useEffect(() => {
-    if (!playing) return
+    if (reducedMotion) setPlaying(false)
+  }, [reducedMotion])
+
+  // Auto-advance only while the flow is visible
+  useEffect(() => {
+    if (!playing || !inView) return
     const id = setInterval(() => setActive((a) => (a + 1) % NODES.length), 3200)
     return () => clearInterval(id)
-  }, [playing])
+  }, [playing, inView])
 
   const select = (i) => {
     setActive(i)
@@ -60,7 +70,7 @@ export default function WorkflowAutomation() {
   const ActiveIcon = NODES[active].icon
 
   return (
-    <section id="automation" className="section-pad py-24 md:py-32 bg-page-wash">
+    <section id="automation" className="section-pad section-y bg-page-wash">
       <div className="section-max">
         <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
           <SectionHeading
@@ -71,15 +81,15 @@ export default function WorkflowAutomation() {
           <Reveal delay={100} className="grid grid-cols-1 gap-3 sm:grid-cols-3 lg:w-[480px]">
             {OUTCOMES.map((o) => (
               <div key={o.title} className="rounded-2xl border border-ink/[0.06] bg-white p-4">
-                <p className="text-[14px] font-semibold text-ink">{o.title}</p>
-                <p className="mt-1 text-[12.5px] leading-snug text-mist">{o.desc}</p>
+                <p className="text-sm font-semibold text-ink">{o.title}</p>
+                <p className="mt-1 text-xs leading-snug text-mist">{o.desc}</p>
               </div>
             ))}
           </Reveal>
         </div>
 
         <Reveal delay={120} className="mt-12 card-surface p-5 md:p-10">
-          <div className="relative">
+          <div ref={flowRef} className="relative">
             {/* Progress rail (desktop) */}
             <div className="absolute left-[8%] right-[8%] top-[34px] hidden h-[2px] bg-ink/[0.07] md:block">
               <div
@@ -111,8 +121,8 @@ export default function WorkflowAutomation() {
                       >
                         <node.icon size={20} />
                       </span>
-                      <span className={`text-[13px] font-semibold ${on ? 'text-primary' : 'text-ink/60'}`}>
-                        <span className="mr-1 text-ink/30">0{i + 1}</span>
+                      <span className={`text-xs font-semibold ${on ? 'text-primary' : 'text-ink/60'}`}>
+                        <span className="mr-1 text-mist">0{i + 1}</span>
                         {node.label}
                       </span>
                     </button>
@@ -127,15 +137,15 @@ export default function WorkflowAutomation() {
               <ActiveIcon size={20} />
             </span>
             <div key={`t-${active}`} className="flex-1 animate-popIn">
-              <p className="text-[12px] font-semibold tracking-[0.14em] text-sky">
+              <p className="text-xs font-semibold tracking-[0.14em] text-sky">
                 STEP 0{active + 1} · {NODES[active].label.toUpperCase()}
               </p>
-              <p className="mt-1.5 text-[15.5px] leading-relaxed text-white/85">{NODES[active].desc}</p>
+              <p className="mt-1.5 text-base leading-relaxed text-white/85">{NODES[active].desc}</p>
             </div>
             <button
               type="button"
               onClick={() => setPlaying((p) => !p)}
-              className="inline-flex shrink-0 items-center gap-2 self-start rounded-full border border-white/20 px-4 py-2.5 text-[13px] font-semibold text-white hover:bg-white/10 md:self-center"
+              className="btn-ghost-light btn-sm shrink-0 self-start md:self-center"
             >
               {playing ? <Pause size={14} /> : <Play size={14} />}
               {playing ? 'Pause' : 'Play'}

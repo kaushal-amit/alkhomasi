@@ -17,7 +17,7 @@ export default function SectionHeading({
         </span>
       )}
       <h2
-        className={`text-[2rem] md:text-[2.75rem] leading-[1.08] font-semibold tracking-[-0.015em] ${
+        className={`text-h2 font-semibold ${
           light ? 'text-white' : 'text-ink'
         }`}
       >

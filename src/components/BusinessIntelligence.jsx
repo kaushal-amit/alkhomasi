@@ -20,23 +20,23 @@ const POINTS = [
 
 export default function BusinessIntelligence() {
   return (
-    <section id="insights" className="section-pad py-24 md:py-32 bg-page-wash">
+    <section id="insights" className="section-pad section-y-sm bg-page-wash">
       <div className="section-max grid lg:grid-cols-[1.1fr_0.9fr] gap-14 items-center">
-        <Reveal className="order-2 lg:order-1 relative overflow-hidden rounded-3xl bg-navy-deep p-6 md:p-8 shadow-lift">
+        <Reveal className="order-2 lg:order-1 card-dark p-6 md:p-8">
           <div className="pointer-events-none absolute inset-0 bg-grid-dark opacity-50" />
           <div className="relative flex items-center justify-between border-b border-white/10 pb-4">
-            <div className="flex items-center gap-2 text-[14px] font-semibold text-white">
+            <div className="flex items-center gap-2 text-sm font-semibold text-white">
               <Gauge size={16} className="text-sky" /> Operational Insight
             </div>
-            <span className="text-[11px] font-medium text-white/45">Demo visualization</span>
+            <span className="text-2xs font-medium text-white/60">Demo visualization</span>
           </div>
 
           <div className="relative mt-5 grid grid-cols-3 gap-3">
             {KPIS.map((kpi) => (
               <div key={kpi.label} className="rounded-2xl border border-white/10 bg-white/[0.05] p-4">
-                <p className="font-display text-[1.4rem] font-semibold text-white">{kpi.value}</p>
-                <p className="mt-1 text-[11.5px] leading-tight text-white/55">{kpi.label}</p>
-                <span className="mt-2 inline-flex items-center gap-1 text-[11px] font-medium text-sky">
+                <p className="font-display text-2xl font-semibold text-white">{kpi.value}</p>
+                <p className="mt-1 text-2xs leading-tight text-white/55">{kpi.label}</p>
+                <span className="mt-2 inline-flex items-center gap-1 text-2xs font-medium text-sky">
                   {kpi.trend === 'up' ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
                   {kpi.trend === 'up' ? 'Improving' : 'Reducing'}
                 </span>
@@ -57,14 +57,14 @@ export default function BusinessIntelligence() {
               </div>
               <div className="mt-2 flex gap-2.5">
                 {DAYS.map((d, i) => (
-                  <span key={i} className="flex-1 text-center text-[10.5px] text-white/40">
+                  <span key={i} className="flex-1 text-center text-2xs text-white/60">
                     {d}
                   </span>
                 ))}
               </div>
             </div>
             <div className="rounded-2xl border border-white/10 bg-white/[0.05] p-3">
-              <p className="text-[10.5px] font-semibold tracking-[0.1em] text-white/45">THROUGHPUT</p>
+              <p className="text-2xs font-semibold tracking-[0.1em] text-white/60">THROUGHPUT</p>
               <svg viewBox="0 0 100 50" className="mt-1 h-16 w-28 text-sky">
                 <polyline
                   points={TREND_POINTS}
@@ -88,7 +88,7 @@ export default function BusinessIntelligence() {
           <Reveal delay={120}>
             <ul className="mt-8 space-y-3.5">
               {POINTS.map((p) => (
-                <li key={p} className="flex items-start gap-3 text-[15.5px] text-ink/80">
+                <li key={p} className="flex items-start gap-3 text-base text-ink/80">
                   <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-primary text-white">
                     <Check size={12} strokeWidth={3} />
                   </span>

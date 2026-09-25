@@ -16,7 +16,7 @@ export function ContactDetails({ compact = false }) {
     { icon: MessageCircle, label: 'WhatsApp', value: 'Chat with our team', href: COMPANY.whatsappHref, external: true },
   ]
   return (
-    <div className={`grid gap-3 ${compact ? 'grid-cols-1' : 'sm:grid-cols-3 lg:grid-cols-1'}`}>
+    <div className={`grid gap-3 ${compact ? 'grid-cols-1' : ''}`}>
       {items.map((it) => (
         <a
           key={it.label}
@@ -28,8 +28,8 @@ export function ContactDetails({ compact = false }) {
             <it.icon size={17} />
           </span>
           <span className="min-w-0 leading-tight">
-            <span className="block text-[11.5px] text-white/50">{it.label}</span>
-            <span className="mt-1 block truncate text-[14px] font-semibold text-white group-hover:text-sky">{it.value}</span>
+            <span className="block text-2xs text-white/50">{it.label}</span>
+            <span className="mt-1 block truncate text-sm font-semibold text-white group-hover:text-sky">{it.value}</span>
           </span>
         </a>
       ))}
@@ -39,8 +39,8 @@ export function ContactDetails({ compact = false }) {
 
 export default function Contact() {
   return (
-    <section id="contact" className="section-pad pb-24 md:pb-32 pt-4">
-      <Reveal className="section-max overflow-hidden rounded-[2rem] bg-navy-deep shadow-lift">
+    <section id="contact" className="section-pad pb-24 md:pb-36 pt-4">
+      <Reveal className="section-max card-dark">
         <div className="grid lg:grid-cols-[1fr_1.1fr]">
           {/* Info panel */}
           <div className="relative p-7 md:p-12">
@@ -50,24 +50,24 @@ export default function Contact() {
               <p className="eyebrow text-sky">
                 <span className="h-px w-6 bg-sky/60" /> Contact
               </p>
-              <h2 className="mt-4 text-[2rem] md:text-[2.6rem] font-semibold leading-[1.08] tracking-tight text-white">
+              <h2 className="mt-4 text-h2 font-semibold text-white">
                 Let's talk about your business.
               </h2>
-              <p className="mt-4 max-w-md text-[16px] leading-relaxed text-white/65">
+              <p className="mt-4 max-w-md text-base leading-relaxed text-white/65">
                 Share what you're trying to solve. We'll come back with practical
                 ideas — no jargon, no obligation.
               </p>
 
-              <p className="mt-10 text-[11.5px] font-semibold tracking-[0.14em] text-white/45">WHAT HAPPENS NEXT</p>
+              <p className="mt-10 text-2xs font-semibold tracking-[0.14em] text-white/60">WHAT HAPPENS NEXT</p>
               <ol className="mt-4 space-y-4">
                 {NEXT_STEPS.map((s, i) => (
                   <li key={s.title} className="flex gap-4">
-                    <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-sky/40 font-display text-[12px] font-semibold text-sky">
+                    <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-sky/40 font-display text-xs font-semibold text-sky">
                       {i + 1}
                     </span>
                     <span>
-                      <span className="block text-[15px] font-semibold text-white">{s.title}</span>
-                      <span className="mt-0.5 block text-[13.5px] text-white/55">{s.desc}</span>
+                      <span className="block text-base font-semibold text-white">{s.title}</span>
+                      <span className="mt-0.5 block text-sm text-white/55">{s.desc}</span>
                     </span>
                   </li>
                 ))}
@@ -77,7 +77,7 @@ export default function Contact() {
                 <ContactDetails />
               </div>
 
-              <div className="mt-6 flex items-start gap-3 text-[13.5px] leading-relaxed text-white/60">
+              <div className="mt-6 flex items-start gap-3 text-sm leading-relaxed text-white/60">
                 <MapPin size={16} className="mt-0.5 shrink-0 text-sky" />
                 <address className="not-italic">
                   {COMPANY.addressLines[0]}
@@ -89,11 +89,11 @@ export default function Contact() {
           </div>
 
           {/* Form panel */}
-          <div className="bg-white p-7 md:p-12 lg:m-3 lg:rounded-[1.6rem]">
-            <h3 className="text-[1.6rem] md:text-[2rem] font-semibold leading-tight tracking-tight text-ink">
+          <div className="bg-white p-7 md:p-12 lg:m-3 lg:rounded-3xl">
+            <h3 className="text-h3 font-semibold text-ink">
               Share your vision &amp; <span className="gradient-text">get expert guidance.</span>
             </h3>
-            <p className="mt-2 text-[15px] text-mist">
+            <p className="mt-2 text-base text-mist">
               Tell us a little about your requirement and our team will reach out.
             </p>
             <div className="mt-8">

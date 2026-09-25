@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Settings2, Headphones, TrendingUp, Wallet, BookOpen, CheckCircle2, Bot, User, Loader2 } from 'lucide-react'
 import SectionHeading from './SectionHeading.jsx'
 import Reveal from './Reveal.jsx'
+import { useInView, usePrefersReducedMotion } from '../hooks/motion.js'
 
 const STEPS = ['Understanding the request', 'Retrieving information', 'Checking the workflow', 'Taking action']
 
@@ -58,9 +59,26 @@ export default function AIAgents() {
   const [visibleSteps, setVisibleSteps] = useState(0)
   const [typed, setTyped] = useState('')
   const tab = TABS.find((t) => t.key === active)
+  const panelRef = useRef(null)
+  const tabRefs = useRef([])
+  const inView = useInView(panelRef)
+  const [started, setStarted] = useState(false)
+  const reducedMotion = usePrefersReducedMotion()
 
-  // Replay the agent "thinking" steps, then type out the reply
+  // Start the demo the first time it scrolls into view
   useEffect(() => {
+    if (inView) setStarted(true)
+  }, [inView])
+
+  // Replay the agent "thinking" steps, then type out the reply.
+  // With reduced motion the finished state is shown straight away.
+  useEffect(() => {
+    if (reducedMotion) {
+      setVisibleSteps(STEPS.length)
+      setTyped(tab.agent)
+      return
+    }
+    if (!started) return
     setVisibleSteps(0)
     setTyped('')
     const timers = STEPS.map((_, i) => setTimeout(() => setVisibleSteps(i + 1), 350 * (i + 1)))
@@ -78,13 +96,31 @@ export default function AIAgents() {
       clearTimeout(start)
       clearInterval(typer)
     }
-  }, [active, tab.agent])
+  }, [active, tab.agent, started, reducedMotion])
 
   const thinking = visibleSteps < STEPS.length
   const typing = !thinking && typed.length < tab.agent.length
 
+  // Arrow / Home / End keys move between tabs (WAI-ARIA tabs pattern)
+  const onTabKeyDown = (e) => {
+    const i = TABS.findIndex((t) => t.key === active)
+    const last = TABS.length - 1
+    const next = {
+      ArrowRight: i === last ? 0 : i + 1,
+      ArrowDown: i === last ? 0 : i + 1,
+      ArrowLeft: i === 0 ? last : i - 1,
+      ArrowUp: i === 0 ? last : i - 1,
+      Home: 0,
+      End: last,
+    }[e.key]
+    if (next === undefined) return
+    e.preventDefault()
+    setActive(TABS[next].key)
+    tabRefs.current[next]?.focus()
+  }
+
   return (
-    <section id="ai-agents" className="section-pad py-24 md:py-32">
+    <section id="ai-agents" className="section-pad section-y">
       <div className="section-max">
         <SectionHeading
           eyebrow="AI Agents"
@@ -94,15 +130,19 @@ export default function AIAgents() {
 
         <Reveal delay={120} className="mt-14 grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-6">
           {/* Tab rail */}
-          <div role="tablist" aria-label="Agent examples" className="no-scrollbar flex min-w-0 lg:flex-col gap-2 overflow-x-auto pb-2 lg:pb-0">
-            {TABS.map((t) => {
+          <div role="tablist" aria-label="Agent examples" onKeyDown={onTabKeyDown} className="no-scrollbar flex min-w-0 lg:flex-col gap-2 overflow-x-auto pb-2 lg:pb-0">
+            {TABS.map((t, i) => {
               const on = active === t.key
               return (
                 <button
                   key={t.key}
+                  ref={(el) => (tabRefs.current[i] = el)}
+                  id={`agent-tab-${t.key}`}
                   type="button"
                   role="tab"
                   aria-selected={on}
+                  aria-controls="agent-panel"
+                  tabIndex={on ? 0 : -1}
                   onClick={() => setActive(t.key)}
                   className={`flex shrink-0 items-start gap-3 rounded-2xl px-4 py-4 text-left transition-all duration-300 ${
                     on
@@ -110,12 +150,12 @@ export default function AIAgents() {
                       : 'bg-white text-ink/75 border border-ink/[0.07] hover:border-primary/30 hover:text-primary'
                   }`}
                 >
-                  <span className={`grid h-9 w-9 shrink-0 place-items-center rounded-lg ${on ? 'bg-white/10 text-sky' : 'bg-haze text-primary'}`}>
+                  <span className={`grid h-9 w-9 shrink-0 place-items-center rounded-xl ${on ? 'bg-white/10 text-sky' : 'bg-haze text-primary'}`}>
                     <t.icon size={16} />
                   </span>
                   <span>
-                    <span className="block text-[14.5px] font-semibold">{t.label}</span>
-                    <span className={`mt-0.5 hidden lg:block text-[12.5px] leading-snug ${on ? 'text-white/60' : 'text-mist'}`}>
+                    <span className="block text-sm font-semibold">{t.label}</span>
+                    <span className={`mt-0.5 hidden lg:block text-xs leading-snug ${on ? 'text-white/60' : 'text-mist'}`}>
                       {t.blurb}
                     </span>
                   </span>
@@ -125,7 +165,13 @@ export default function AIAgents() {
           </div>
 
           {/* Demo panel */}
-          <div className="relative min-w-0 overflow-hidden rounded-3xl bg-navy-deep p-5 md:p-8 shadow-lift">
+          <div
+            ref={panelRef}
+            id="agent-panel"
+            role="tabpanel"
+            aria-labelledby={`agent-tab-${tab.key}`}
+            className="card-dark min-w-0 p-5 md:p-8"
+          >
             <div className="pointer-events-none absolute inset-0 bg-grid-dark opacity-50" />
             <div className="pointer-events-none absolute -top-24 right-0 h-64 w-64 rounded-full bg-bright/20 blur-3xl" />
 
@@ -135,11 +181,11 @@ export default function AIAgents() {
                   <Bot size={18} />
                 </span>
                 <div className="leading-tight">
-                  <p className="text-[15px] font-semibold text-white">{tab.label} Agent</p>
-                  <p className="text-[12px] text-white/50">Capability example · not a live product</p>
+                  <p className="text-base font-semibold text-white">{tab.label} Agent</p>
+                  <p className="text-xs text-white/50">Capability example · not a live product</p>
                 </div>
               </div>
-              <span className="flex items-center gap-2 rounded-full bg-white/[0.06] px-3 py-1.5 text-[11.5px] font-semibold text-sky">
+              <span className="flex items-center gap-2 rounded-full bg-white/[0.06] px-3 py-1.5 text-2xs font-semibold text-sky">
                 <span className="h-1.5 w-1.5 rounded-full bg-sky animate-pulseSoft" /> Online
               </span>
             </div>
@@ -147,7 +193,7 @@ export default function AIAgents() {
             <div className="relative mt-6 grid md:grid-cols-[1fr_230px] gap-6">
               <div className="flex min-h-[260px] flex-col gap-4" aria-live="polite">
                 <div className="flex items-end justify-end gap-2.5">
-                  <div className="max-w-[85%] rounded-2xl rounded-br-sm bg-white px-4 py-3 text-[14.5px] leading-relaxed text-ink">
+                  <div className="max-w-[85%] rounded-2xl rounded-br-sm bg-white px-4 py-3 text-sm leading-relaxed text-ink">
                     {tab.customer}
                   </div>
                   <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-white/10 text-white/70">
@@ -158,7 +204,7 @@ export default function AIAgents() {
                   <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-gradient-to-br from-primary to-bright text-white">
                     <Bot size={14} />
                   </span>
-                  <div className="max-w-[90%] rounded-2xl rounded-bl-sm border border-white/10 bg-white/[0.07] px-4 py-3 text-[14.5px] leading-relaxed text-white">
+                  <div className="max-w-[90%] rounded-2xl rounded-bl-sm border border-white/10 bg-white/[0.07] px-4 py-3 text-sm leading-relaxed text-white">
                     {thinking ? (
                       <span className="flex items-center gap-2 text-white/60">
                         <Loader2 size={14} className="animate-spin" /> Working on it…
@@ -171,15 +217,15 @@ export default function AIAgents() {
               </div>
 
               <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
-                <p className="text-[11px] font-semibold tracking-[0.14em] text-white/45">AGENT ACTIVITY</p>
+                <p className="text-2xs font-semibold tracking-[0.14em] text-white/60">AGENT ACTIVITY</p>
                 <ul className="mt-4 space-y-3">
                   {STEPS.map((step, i) => {
                     const done = i < visibleSteps
                     return (
                       <li
                         key={step}
-                        className={`flex items-center gap-2.5 text-[13px] transition-all duration-300 ${
-                          done ? 'text-white' : 'text-white/35'
+                        className={`flex items-center gap-2.5 text-xs transition-all duration-300 ${
+                          done ? 'text-white' : 'text-white/60'
                         }`}
                       >
                         <CheckCircle2 size={15} className={done ? 'text-sky' : 'text-white/20'} />

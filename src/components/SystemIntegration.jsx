@@ -19,7 +19,7 @@ const POINTS = [
 
 export default function SystemIntegration() {
   return (
-    <section id="integration" className="section-pad py-24 md:py-32 bg-navy-deep relative overflow-hidden">
+    <section id="integration" className="section-pad section-y bg-navy-deep relative overflow-hidden">
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute inset-0 bg-grid-dark opacity-60" />
         <div className="absolute top-0 right-1/4 h-[30rem] w-[30rem] rounded-full bg-primary/25 blur-[130px]" />
@@ -36,7 +36,7 @@ export default function SystemIntegration() {
           <Reveal delay={120}>
             <ul className="mt-8 space-y-3.5">
               {POINTS.map((p) => (
-                <li key={p} className="flex items-start gap-3 text-[15.5px] text-white/80">
+                <li key={p} className="flex items-start gap-3 text-base text-white/80">
                   <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-sky text-navy-deep">
                     <Check size={12} strokeWidth={3} />
                   </span>
@@ -70,7 +70,7 @@ export default function SystemIntegration() {
               <span className="absolute inset-0 rounded-xl bg-bright/40 animate-ring" />
               <BrainCircuit size={19} className="relative" />
             </span>
-            <span className="text-[11.5px] font-semibold leading-tight text-white">
+            <span className="text-2xs font-semibold leading-tight text-white">
               AL-KHOMASI Intelligence Layer
             </span>
           </div>
@@ -84,7 +84,7 @@ export default function SystemIntegration() {
               <span className="grid h-11 w-11 place-items-center rounded-xl border border-white/15 bg-navy text-sky shadow-soft">
                 <n.icon size={17} />
               </span>
-              <span className="text-[11.5px] font-medium text-white/80 whitespace-nowrap">{n.label}</span>
+              <span className="text-2xs font-medium text-white/80 whitespace-nowrap">{n.label}</span>
             </div>
           ))}
         </Reveal>

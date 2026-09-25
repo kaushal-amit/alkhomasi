@@ -2,7 +2,27 @@
 export default {
   content: ['./index.html', './src/**/*.{js,jsx}'],
   theme: {
+    // Type scale — the only text sizes the site uses. Headings are fluid so
+    // they scale smoothly between phone and desktop without breakpoint jumps.
+    fontSize: {
+      '2xs': ['11px', { lineHeight: '1.45' }],
+      xs: ['12.5px', { lineHeight: '1.5' }],
+      sm: ['14px', { lineHeight: '1.55' }],
+      base: ['16px', { lineHeight: '1.65' }],
+      lg: ['18px', { lineHeight: '1.6' }],
+      xl: ['20px', { lineHeight: '1.4' }],
+      '2xl': ['24px', { lineHeight: '1.3' }],
+      h3: ['clamp(1.6rem, 1.25rem + 1.1vw, 2.25rem)', { lineHeight: '1.15', letterSpacing: '-0.01em' }],
+      h2: ['clamp(2rem, 1.55rem + 1.5vw, 2.75rem)', { lineHeight: '1.1', letterSpacing: '-0.015em' }],
+      display: ['clamp(2.5rem, 1.75rem + 2.6vw, 3.75rem)', { lineHeight: '1.06', letterSpacing: '-0.02em' }],
+    },
     extend: {
+      // Three radii (small / medium / large) plus rounded-full for pills
+      borderRadius: {
+        xl: '12px',
+        '2xl': '18px',
+        '3xl': '28px',
+      },
       colors: {
         navy: '#062B63',
         'navy-deep': '#041B42',
@@ -14,6 +34,7 @@ export default {
         ink: '#0B1F3A',
         mist: '#5B6B82',
         line: '#E3EAF3',
+        whatsapp: '#128C45',
       },
       fontFamily: {
         display: ['"Sora"', 'sans-serif'],

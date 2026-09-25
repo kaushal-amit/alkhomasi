@@ -13,7 +13,7 @@ const STEPS = [
 
 export default function HowWeWork() {
   return (
-    <section id="how-we-work" className="section-pad py-24 md:py-32">
+    <section id="how-we-work" className="section-pad section-y">
       <div className="section-max">
         <SectionHeading
           align="center"
@@ -31,13 +31,13 @@ export default function HowWeWork() {
               <Reveal as="li" key={step.title} delay={i * 80} className="group relative flex gap-4 lg:flex-col lg:items-center lg:text-center">
                 <span className="relative z-10 grid h-14 w-14 shrink-0 place-items-center rounded-2xl border border-ink/[0.07] bg-white text-primary shadow-soft transition-all duration-300 group-hover:-translate-y-1 group-hover:bg-navy group-hover:text-sky group-hover:shadow-lift">
                   <step.icon size={21} />
-                  <span className="absolute -right-2 -top-2 grid h-6 w-6 place-items-center rounded-full bg-gradient-to-br from-primary to-bright font-display text-[10.5px] font-bold text-white">
+                  <span className="absolute -right-2 -top-2 grid h-6 w-6 place-items-center rounded-full bg-gradient-to-br from-primary to-bright font-display text-2xs font-bold text-white">
                     {i + 1}
                   </span>
                 </span>
                 <div>
-                  <h3 className="text-[17px] font-semibold text-ink lg:mt-5">{step.title}</h3>
-                  <p className="mt-1.5 text-[14.5px] leading-relaxed text-mist">{step.desc}</p>
+                  <h3 className="text-lg font-semibold text-ink lg:mt-5">{step.title}</h3>
+                  <p className="mt-1.5 text-sm leading-relaxed text-mist">{step.desc}</p>
                 </div>
               </Reveal>
             ))}

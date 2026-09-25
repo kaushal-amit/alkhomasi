@@ -22,7 +22,7 @@ export default function App() {
   return (
     <ContactModalProvider>
       {/* overflow-x: clip (not hidden) so sticky elements keep working */}
-      <div className="[overflow-x:clip]">
+      <div data-modal-background className="[overflow-x:clip]">
         <Navbar />
         <main>
           <Hero />

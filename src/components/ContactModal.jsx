@@ -23,20 +23,31 @@ export default function ContactModal() {
     const prevOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
 
+    // Make everything behind the dialog unreachable (keyboard, pointer, screen readers)
+    const background = document.querySelectorAll('[data-modal-background]')
+    background.forEach((el) => el.setAttribute('inert', ''))
+
     const dialog = dialogRef.current
     dialog?.querySelector('input')?.focus()
 
+    // Only elements that are actually rendered can take focus (the info
+    // panel is display:none on small screens)
+    const visibleFocusables = () =>
+      [...dialog.querySelectorAll('a[href], button:not([disabled]), input:not([type="hidden"]), select, textarea')].filter(
+        (el) => el.getClientRects().length > 0 && !el.closest('[aria-hidden="true"]')
+      )
+
     const onKey = (e) => {
       if (e.key === 'Escape') close()
-      // Keep keyboard focus inside the dialog
       if (e.key === 'Tab' && dialog) {
-        const focusables = dialog.querySelectorAll('a[href], button, input, select, textarea')
+        const focusables = visibleFocusables()
+        if (!focusables.length) return
         const first = focusables[0]
         const last = focusables[focusables.length - 1]
-        if (e.shiftKey && document.activeElement === first) {
+        if (e.shiftKey && (document.activeElement === first || !dialog.contains(document.activeElement))) {
           e.preventDefault()
           last.focus()
-        } else if (!e.shiftKey && document.activeElement === last) {
+        } else if (!e.shiftKey && (document.activeElement === last || !dialog.contains(document.activeElement))) {
           e.preventDefault()
           first.focus()
         }
@@ -45,6 +56,7 @@ export default function ContactModal() {
     document.addEventListener('keydown', onKey)
     return () => {
       document.body.style.overflow = prevOverflow
+      background.forEach((el) => el.removeAttribute('inert'))
       document.removeEventListener('keydown', onKey)
       lastFocused.current?.focus?.()
     }
@@ -61,7 +73,7 @@ export default function ContactModal() {
         role="dialog"
         aria-modal="true"
         aria-labelledby="contact-modal-title"
-        className="relative my-auto grid w-full max-w-5xl overflow-hidden rounded-[1.75rem] bg-navy-deep shadow-lift animate-popIn lg:grid-cols-[0.9fr_1.1fr]"
+        className="card-dark my-auto grid w-full max-w-5xl animate-popIn lg:grid-cols-[0.9fr_1.1fr]"
       >
         {/* Info side */}
         <div className="relative hidden p-10 lg:block">
@@ -71,40 +83,40 @@ export default function ContactModal() {
             <p className="eyebrow text-sky">
               <span className="h-px w-6 bg-sky/60" /> {COMPANY.name}
             </p>
-            <p className="mt-4 font-display text-[1.7rem] font-semibold leading-tight text-white">
+            <p className="mt-4 font-display text-2xl font-semibold text-white">
               Intelligent solutions, built around how your business works.
             </p>
             <div className="mt-8 grid grid-cols-2 gap-3">
               {HIGHLIGHTS.map((h) => (
                 <div key={h.label} className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.05] p-4">
                   <h.icon size={18} className="text-sky" />
-                  <span className="text-[14px] font-semibold text-white">{h.label}</span>
+                  <span className="text-sm font-semibold text-white">{h.label}</span>
                 </div>
               ))}
             </div>
             <div className="mt-8">
               <ContactDetails compact />
             </div>
-            <p className="mt-auto pt-8 font-display text-[12px] font-semibold tracking-[0.16em] text-sky/80">
+            <p className="mt-auto pt-8 font-display text-xs font-semibold tracking-[0.16em] text-sky/80">
               {COMPANY.motto.toUpperCase()}
             </p>
           </div>
         </div>
 
         {/* Form side */}
-        <div className="relative bg-white p-6 sm:p-10 lg:m-3 lg:rounded-[1.4rem]">
+        <div className="relative bg-white p-6 sm:p-10 lg:m-3 lg:rounded-3xl">
           <button
             type="button"
             onClick={close}
             aria-label="Close"
-            className="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full border border-ink/10 text-ink transition-colors hover:bg-haze"
+            className="icon-btn absolute right-4 top-4"
           >
             <X size={18} />
           </button>
-          <h2 id="contact-modal-title" className="pr-12 text-[1.7rem] sm:text-[2.1rem] font-semibold leading-[1.1] tracking-tight text-ink">
+          <h2 id="contact-modal-title" className="pr-12 text-h3 font-semibold text-ink">
             Share your vision &amp; <span className="gradient-text">get a quick response.</span>
           </h2>
-          <p className="mt-3 text-[14.5px] text-mist">
+          <p className="mt-3 text-sm text-mist">
             Reach our experts for an upfront view of how to approach your project.
           </p>
           <div className="mt-7">

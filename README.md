@@ -22,6 +22,24 @@ npm run preview
 The production build is output to `dist/`, ready to deploy to any static host
 (Vercel, Netlify, S3 + CloudFront, etc.).
 
+`npm run build` also **prerenders** the page: it renders the React app to HTML
+at build time (`src/entry-server.jsx` → `scripts/prerender.mjs`) and injects it
+into `dist/index.html`, which the browser then hydrates. The page is therefore
+readable by search engines, link previews and visitors without JavaScript.
+
+## Contact form
+
+Submissions go through `src/lib/submitLead.js`:
+
+- **With `VITE_FORM_ENDPOINT` set** (in `.env` or your host's build settings),
+  the form POSTs JSON to that URL — e.g. Formspree, Web3Forms, Basin, or your
+  own API/CRM webhook.
+- **Without it**, the form opens the visitor's email app with the enquiry
+  pre-filled to `info@alkhomasi.com`, so no enquiry is silently lost.
+
+The form validates inline, includes a hidden honeypot field against simple
+bots, and shows sending / sent / error states.
+
 ## Project structure
 
 ```
@@ -49,10 +67,32 @@ src/
     FloatingActions.jsx       "Get a Call Back" tab, WhatsApp button, back-to-top
     Footer.jsx                Footer navigation, contact details
     Logo.jsx, SectionHeading.jsx, Reveal.jsx   Shared building blocks
+  hooks/motion.js             Reduced-motion + in-view hooks for looping demos
+  lib/submitLead.js           Contact-form delivery (endpoint or mailto fallback)
+  entry-server.jsx            Build-time render used by scripts/prerender.mjs
   App.jsx                     Composes all sections
   index.css                   Tailwind + brand utility classes
 tailwind.config.js            Brand color tokens, fonts, keyframes
 ```
+
+## Design system
+
+Defined in `tailwind.config.js` and `src/index.css` — use these instead of
+one-off values:
+
+- **Type scale:** `text-2xs` 11 · `xs` 12.5 · `sm` 14 · `base` 16 · `lg` 18 ·
+  `xl` 20 · `2xl` 24 · fluid headings `text-h3`, `text-h2`, `text-display`.
+- **Radii:** `rounded-xl` 12 (small) · `rounded-2xl` 18 (medium) ·
+  `rounded-3xl` 28 (large) · `rounded-full` (pills).
+- **Buttons:** `btn-primary`, `btn-secondary`, `btn-ghost-light` (on dark),
+  `link-arrow` (text link + arrow chip); sizes `btn-sm` / `btn-lg`;
+  `icon-btn` for icon-only buttons.
+- **Surfaces:** `card-surface` (light) and `card-dark` (navy feature panel).
+- **Section rhythm:** `section-y-lg` for key sections, `section-y` standard,
+  `section-y-sm` for supporting sections.
+- **Contrast:** small text on navy uses at least `text-white/60`.
+- **Motion:** looping demos pause when off-screen and respect
+  `prefers-reduced-motion` (`src/hooks/motion.js`).
 
 ## Brand tokens
 
@@ -75,8 +115,7 @@ in `index.html`.
   no invented clients, stats, testimonials or claims.
 - The AI-agent, workflow, dashboard and integration visuals are clearly framed
   as capability demonstrations, not live product screenshots or real data.
-- The contact form is a working frontend form (client-side only); wire
-  `handleSubmit` in `ContactForm.jsx` to your email/CRM endpoint of choice.
-  Both the Contact section and the "Let's Talk" modal use it.
+- `public/robots.txt` and `public/sitemap.xml` assume the site is served at
+  `https://alkhomasi.com/` — update both if the domain differs.
 - Contact details live in `src/data/site.js`. The WhatsApp link assumes the
   number is Indian (`+91`); update `whatsappHref` there if that changes.

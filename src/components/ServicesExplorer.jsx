@@ -35,6 +35,11 @@ import {
   Database,
   ArrowRight,
   ArrowUpRight,
+  FlaskConical,
+  Timer,
+  ShieldCheck,
+  ListChecks,
+  Plug,
 } from 'lucide-react'
 import SectionHeading from './SectionHeading.jsx'
 import Reveal from './Reveal.jsx'
@@ -53,6 +58,7 @@ const SERVICES = [
       { icon: MessagesSquare, label: 'AI Assistants & Copilots' },
       { icon: FileSearch, label: 'Document Intelligence' },
       { icon: Wand2, label: 'Generative AI Integration' },
+      { icon: FlaskConical, label: 'AI Pilots & Proofs of Concept' },
     ],
     links: [
       { label: 'See AI agents in action', href: '#ai-agents' },
@@ -72,6 +78,7 @@ const SERVICES = [
       { icon: TrendingUp, label: 'Sales Agents' },
       { icon: Wallet, label: 'Collections Agents' },
       { icon: BookOpen, label: 'Knowledge Agents' },
+      { icon: Bot, label: 'Custom Agent Workflows' },
     ],
     links: [{ label: 'Try the agent demo', href: '#ai-agents' }],
   },
@@ -88,6 +95,7 @@ const SERVICES = [
       { icon: Workflow, label: 'End-to-End Process Automation' },
       { icon: BellRing, label: 'Alerts & Escalations' },
       { icon: ClipboardList, label: 'Audit Trails & Logs' },
+      { icon: Timer, label: 'Task & SLA Tracking' },
     ],
     links: [{ label: 'Walk through a workflow', href: '#automation' }],
   },
@@ -104,6 +112,7 @@ const SERVICES = [
       { icon: Boxes, label: 'Operations Management Systems' },
       { icon: Gauge, label: 'Management Dashboards' },
       { icon: Globe, label: 'Web Applications' },
+      { icon: ShieldCheck, label: 'Role-Based Access Control' },
     ],
     links: [{ label: 'View a sample interface', href: '#business-software' }],
   },
@@ -120,6 +129,7 @@ const SERVICES = [
       { icon: DatabaseZap, label: 'Data Consolidation' },
       { icon: LineChart, label: 'Trend & Performance Analysis' },
       { icon: BrainCircuit, label: 'AI-Powered Insights' },
+      { icon: ListChecks, label: 'Data Quality & Cleansing' },
     ],
     links: [{ label: 'See an insight dashboard', href: '#insights' }],
   },
@@ -136,6 +146,7 @@ const SERVICES = [
       { icon: Code2, label: 'API Development' },
       { icon: Cloud, label: 'Cloud Integration' },
       { icon: Database, label: 'Database Connectivity' },
+      { icon: Plug, label: 'Third-Party Service Integration' },
     ],
     links: [{ label: 'See the integration map', href: '#integration' }],
   },
@@ -170,7 +181,7 @@ export default function ServicesExplorer() {
   }, [active])
 
   return (
-    <section id="solutions" className="relative bg-page-wash section-pad py-24 md:py-32">
+    <section id="solutions" className="relative bg-page-wash section-pad section-y-lg">
       <div className="section-max">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <SectionHeading
@@ -178,7 +189,7 @@ export default function ServicesExplorer() {
             title="Six capabilities. One intelligent business."
             description="From manual processes to intelligent workflows — we build solutions that automate work, connect systems and help organizations make faster, smarter decisions."
           />
-          <Reveal delay={120} className="hidden md:flex items-center gap-2 text-[13px] font-semibold text-mist">
+          <Reveal delay={120} className="hidden md:flex items-center gap-2 text-xs font-semibold text-mist">
             Scroll to explore <ArrowRight size={14} className="rotate-90" />
           </Reveal>
         </div>
@@ -188,7 +199,7 @@ export default function ServicesExplorer() {
           <div className="sticky top-[64px] z-20 -mx-5 min-w-0 md:-mx-10 lg:mx-0 lg:top-28 lg:self-start">
             <nav
               ref={railRef}
-              aria-label="Solutions"
+              aria-label="Jump to a solution"
               className="no-scrollbar flex gap-2 overflow-x-auto bg-white/90 px-5 py-3 backdrop-blur-lg md:px-10 lg:hidden"
             >
               {SERVICES.map((s) => (
@@ -196,7 +207,7 @@ export default function ServicesExplorer() {
                   key={s.id}
                   data-chip={s.id}
                   href={`#${s.id}`}
-                  className={`flex shrink-0 items-center gap-2 rounded-full px-4 py-2.5 text-[13.5px] font-semibold transition-colors ${
+                  className={`flex shrink-0 items-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold transition-colors ${
                     active === s.id ? 'bg-navy text-white' : 'bg-haze text-ink/70'
                   }`}
                 >
@@ -206,8 +217,8 @@ export default function ServicesExplorer() {
             </nav>
 
             <nav
-              aria-label="Solutions"
-              className="relative hidden overflow-hidden rounded-3xl bg-navy-deep p-3 shadow-lift lg:block"
+              aria-label="Solutions overview"
+              className="card-dark hidden p-3 lg:block"
             >
               <div className="pointer-events-none absolute inset-0 bg-dots-dark opacity-40" />
               <div className="pointer-events-none absolute -bottom-24 -left-20 h-64 w-64 rounded-full bg-primary/30 blur-3xl" />
@@ -228,20 +239,20 @@ export default function ServicesExplorer() {
                             on ? 'opacity-100' : 'opacity-0'
                           }`}
                         />
-                        <span className={`mt-0.5 font-display text-[12px] font-semibold ${on ? 'text-sky' : 'text-white/30'}`}>
+                        <span className={`mt-0.5 font-display text-xs font-semibold ${on ? 'text-sky' : 'text-white/60'}`}>
                           0{i + 1}
                         </span>
                         <span className="flex-1">
                           <span
-                            className={`block font-display text-[17px] font-semibold leading-snug transition-colors ${
+                            className={`block font-display text-lg font-semibold leading-snug transition-colors ${
                               on ? 'text-sky' : 'text-white/55 group-hover:text-white/80'
                             }`}
                           >
                             {s.name}
                           </span>
                           <span
-                            className={`mt-1 block text-[13.5px] transition-colors ${
-                              on ? 'text-white' : 'text-white/35 group-hover:text-white/55'
+                            className={`mt-1 block text-sm transition-colors ${
+                              on ? 'text-white' : 'text-white/60 group-hover:text-white/80'
                             }`}
                           >
                             {s.tagline}
@@ -288,38 +299,34 @@ function ServicePanel({ service: s, index }) {
             0{index + 1} · {s.name}
           </span>
         </div>
-        <h3 className="mt-6 max-w-2xl text-[1.75rem] leading-[1.15] md:text-[2.3rem] font-semibold tracking-tight text-ink">
+        <h3 className="mt-6 max-w-2xl text-h3 font-semibold text-ink">
           {s.title}
         </h3>
-        <p className="mt-4 max-w-2xl text-[16px] md:text-[17px] leading-relaxed text-mist">{s.desc}</p>
+        <p className="mt-4 max-w-2xl text-base md:text-lg leading-relaxed text-mist">{s.desc}</p>
 
-        <p className="mt-9 font-display text-[18px] font-semibold text-ink">Core Capabilities</p>
-        <ul className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-5">
+        <p className="mt-9 font-display text-lg font-semibold text-ink">Core Capabilities</p>
+        <ul className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-3">
           {s.capabilities.map((c) => (
             <li
               key={c.label}
-              className="group relative flex min-h-[148px] flex-col items-center justify-center gap-3 rounded-2xl border border-ink/[0.06] bg-white p-4 text-center shadow-[0_1px_2px_rgba(6,43,99,0.04)] transition-all duration-300 hover:-translate-y-1 hover:border-navy hover:bg-navy hover:shadow-lift"
+              className="group flex min-h-[132px] flex-col items-center justify-center gap-3 rounded-2xl border border-ink/[0.06] bg-white p-4 text-center transition-colors duration-200 hover:border-primary/25 hover:bg-haze/40"
             >
-              <span className="grid h-12 w-12 place-items-center rounded-xl bg-haze text-navy transition-colors duration-300 group-hover:bg-white/10 group-hover:text-sky">
+              <span className="grid h-12 w-12 place-items-center rounded-xl bg-haze text-navy transition-colors duration-200 group-hover:text-primary">
                 <c.icon size={22} strokeWidth={1.8} />
               </span>
-              <span className="text-[14px] font-semibold leading-snug text-ink transition-colors duration-300 group-hover:text-white">
+              <span className="text-sm font-semibold leading-snug text-ink">
                 {c.label}
               </span>
             </li>
           ))}
         </ul>
 
-        <div className="mt-8 flex flex-wrap gap-3">
+        <div className="mt-7 flex flex-wrap gap-x-8 gap-y-2">
           {s.links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="group inline-flex items-center gap-3 rounded-xl bg-navy py-3 pl-5 pr-3 text-[14px] font-semibold text-white transition-all duration-300 hover:bg-primary"
-            >
+            <a key={l.href} href={l.href} className="link-arrow">
               {l.label}
-              <span className="grid h-7 w-7 place-items-center rounded-full border border-white/30 transition-transform duration-300 group-hover:translate-x-0.5">
-                <ArrowRight size={13} />
+              <span className="chip">
+                <ArrowRight size={14} />
               </span>
             </a>
           ))}

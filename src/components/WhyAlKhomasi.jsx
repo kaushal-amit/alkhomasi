@@ -80,8 +80,8 @@ function MethodRing() {
         return (
           <span
             key={s.label}
-            className={`pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 font-display text-[12px] font-semibold ${
-              i === 3 ? 'text-navy-deep' : 'text-white'
+            className={`pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 font-display text-xs font-semibold ${
+              i >= 2 ? 'text-navy-deep' : 'text-white'
             }`}
             style={{ left: `${x}%`, top: `${y}%` }}
           >
@@ -90,11 +90,11 @@ function MethodRing() {
         )
       })}
       <div className="absolute inset-[26%] flex flex-col items-center justify-center rounded-full bg-white text-center shadow-card">
-        <span className="text-[10.5px] font-semibold tracking-[0.16em] text-mist">OUR METHOD</span>
-        <span className="mt-1 font-display text-[18px] font-semibold leading-tight text-ink">
+        <span className="text-2xs font-semibold tracking-[0.16em] text-mist">OUR METHOD</span>
+        <span className="mt-1 font-display text-lg font-semibold leading-tight text-ink">
           {hover === null ? 'Four steps' : STAGES[hover].label}
         </span>
-        <span className="mt-1 text-[11.5px] text-mist">to an intelligent business</span>
+        <span className="mt-1 text-2xs text-mist">to an intelligent business</span>
       </div>
     </div>
   )
@@ -102,7 +102,7 @@ function MethodRing() {
 
 export default function WhyAlKhomasi() {
   return (
-    <section id="why" className="section-pad py-24 md:py-32 bg-page-wash">
+    <section id="why" className="section-pad section-y-lg bg-page-wash">
       <div className="section-max grid gap-14 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
         <Reveal>
           <MethodRing />
@@ -130,9 +130,9 @@ export default function WhyAlKhomasi() {
                   <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-haze text-primary transition-colors group-hover:bg-navy group-hover:text-sky">
                     <point.icon size={18} />
                   </span>
-                  <h3 className="text-[16px] font-semibold text-ink">{point.title}</h3>
+                  <h3 className="text-base font-semibold text-ink">{point.title}</h3>
                 </div>
-                <p className="mt-3 text-[14.5px] leading-relaxed text-mist">{point.desc}</p>
+                <p className="mt-3 text-sm leading-relaxed text-mist">{point.desc}</p>
               </Reveal>
             ))}
           </div>

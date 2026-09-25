@@ -9,6 +9,8 @@
       content="AL-KHOMASI SOFTWARE PRIVATE LIMITED designs and builds AI solutions, AI agents, workflow automation, business software and system integrations — built around the way your business works."
     />
     <meta name="theme-color" content="#041B42" />
+    <!-- Lets CSS hide scroll-reveal content only when JS will reveal it -->
+    <script>document.documentElement.classList.add('js')</script>
     <meta property="og:title" content="AL-KHOMASI | AI Solutions &amp; Digital Transformation Partner" />
     <meta
       property="og:description"
@@ -27,7 +29,7 @@
     />
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"><!--app-html--></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

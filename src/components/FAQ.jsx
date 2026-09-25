@@ -29,7 +29,7 @@ const FAQS = [
 export default function FAQ() {
   const { open } = useContactModal()
   return (
-    <section id="faq" className="section-pad py-24 md:py-32 bg-page-wash">
+    <section id="faq" className="section-pad section-y-sm bg-page-wash">
       <div className="section-max grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
         <div>
           <SectionHeading
@@ -51,13 +51,13 @@ export default function FAQ() {
               open={i === 0}
               className="group rounded-2xl border border-ink/[0.07] bg-white px-6 shadow-[0_1px_2px_rgba(6,43,99,0.04)] open:shadow-card"
             >
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-[16px] font-semibold text-ink [&::-webkit-details-marker]:hidden">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-base font-semibold text-ink [&::-webkit-details-marker]:hidden">
                 {f.q}
                 <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-haze text-primary transition-transform duration-300 group-open:rotate-45 group-open:bg-navy group-open:text-white">
                   <Plus size={16} />
                 </span>
               </summary>
-              <p className="-mt-1 pb-5 pr-10 text-[15px] leading-relaxed text-mist">{f.a}</p>
+              <p className="-mt-1 pb-5 pr-10 text-base leading-relaxed text-mist">{f.a}</p>
             </details>
           ))}
         </Reveal>

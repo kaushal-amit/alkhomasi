@@ -19,7 +19,7 @@ export default function CapabilityStrip() {
       <div className="flex w-max animate-marquee gap-12 whitespace-nowrap">
         {items.map((item, i) => (
           <div key={i} className="flex items-center gap-12">
-            <span className="flex items-center gap-3 font-display text-[15px] font-medium tracking-wide text-white/75">
+            <span className="flex items-center gap-3 font-display text-base font-medium tracking-wide text-white/75">
               <item.icon size={16} className="text-sky" />
               {item.label}
             </span>

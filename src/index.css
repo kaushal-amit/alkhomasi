@@ -65,28 +65,70 @@ summary:focus-visible {
   color: transparent;
 }
 
+@layer components {
+/* ---- Buttons: four variants, two sizes ---------------------------------
+   .btn-primary     solid brand blue — the main action
+   .btn-secondary   white with hairline border — secondary action (works on light and dark)
+   .btn-ghost-light transparent outline — secondary action on dark surfaces
+   .link-arrow      text link with arrow chip — "go to" navigation              */
+.btn {
+  @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full px-6 py-3.5 text-base font-semibold transition-all duration-200 ease-out active:scale-[0.98] disabled:pointer-events-none disabled:opacity-60;
+}
 .btn-primary {
-  @apply inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3.5 text-[15px] font-semibold text-white shadow-soft transition-all duration-300 hover:bg-navy hover:shadow-glow active:scale-[0.98];
+  @apply btn bg-primary text-white shadow-soft hover:-translate-y-px hover:bg-navy hover:shadow-glow;
 }
-
 .btn-secondary {
-  @apply inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white px-6 py-3.5 text-[15px] font-semibold text-ink transition-all duration-300 hover:border-primary/40 hover:text-primary active:scale-[0.98];
+  @apply btn border border-ink/10 bg-white text-ink hover:-translate-y-px hover:border-primary/40 hover:text-primary hover:shadow-soft;
 }
-
 .btn-ghost-light {
-  @apply inline-flex items-center gap-2 rounded-full border border-white/25 px-6 py-3.5 text-[15px] font-semibold text-white transition-all duration-300 hover:bg-white/10 active:scale-[0.98];
+  @apply btn border border-white/25 text-white hover:border-white/50 hover:bg-white/10;
+}
+/* Sizes come after the variants so they win over the base padding */
+.btn-sm {
+  @apply px-5 py-2.5 text-sm;
+}
+.btn-lg {
+  @apply px-7 py-4;
+}
+.link-arrow {
+  @apply inline-flex items-center gap-3 rounded-full py-1 text-sm font-semibold text-primary transition-colors hover:text-navy;
+}
+.link-arrow > .chip {
+  @apply grid h-8 w-8 place-items-center rounded-full border border-primary/25 transition-all duration-200;
+}
+.link-arrow:hover > .chip {
+  @apply translate-x-0.5 border-navy bg-navy text-white;
+}
+.icon-btn {
+  @apply grid h-11 w-11 shrink-0 place-items-center rounded-full border border-ink/10 bg-white text-ink transition-colors hover:border-primary/40 hover:text-primary;
 }
 
+/* ---- Surfaces ------------------------------------------------------------ */
 .card-surface {
   @apply rounded-2xl border border-ink/[0.06] bg-white shadow-soft;
 }
+.card-dark {
+  @apply relative overflow-hidden rounded-3xl bg-navy-deep shadow-lift;
+}
+
+/* ---- Section rhythm: major sections breathe more than supporting ones ---- */
+.section-y {
+  @apply py-20 md:py-28;
+}
+.section-y-lg {
+  @apply py-24 md:py-36;
+}
+.section-y-sm {
+  @apply py-16 md:py-24;
+}
+}
 
 .eyebrow {
-  @apply inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em];
+  @apply inline-flex items-center gap-2 text-2xs font-semibold uppercase tracking-[0.16em];
 }
 
 .field-input {
-  @apply w-full border-0 border-b border-ink/15 bg-transparent px-0 py-2.5 text-[15px] text-ink placeholder:text-ink/35 outline-none transition-colors focus:border-primary focus:ring-0;
+  @apply w-full border-0 border-b border-ink/15 bg-transparent px-0 py-2.5 text-base text-ink placeholder:text-mist outline-none transition-colors focus:border-primary focus:ring-0;
 }
 
 .bg-grid-dark {
@@ -108,11 +150,11 @@ summary:focus-visible {
     #F6FAFE;
 }
 
-.reveal {
+.js .reveal {
   opacity: 0;
 }
 
-.reveal.is-visible {
+.js .reveal.is-visible {
   animation: reveal-rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
