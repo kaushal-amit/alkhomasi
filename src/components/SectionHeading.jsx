@@ -11,16 +11,13 @@ export default function SectionHeading({
   return (
     <Reveal className={`flex flex-col ${alignment} max-w-2xl gap-4`}>
       {eyebrow && (
-        <span
-          className={`text-xs font-semibold tracking-[0.14em] ${
-            light ? 'text-bright' : 'text-primary'
-          }`}
-        >
+        <span className={`eyebrow ${light ? 'text-sky' : 'text-primary'}`}>
+          <span className={`h-px w-6 ${light ? 'bg-sky/60' : 'bg-primary/50'}`} />
           {eyebrow}
         </span>
       )}
       <h2
-        className={`text-3xl md:text-[2.6rem] leading-[1.1] font-semibold tracking-tight ${
+        className={`text-[2rem] md:text-[2.75rem] leading-[1.08] font-semibold tracking-[-0.015em] ${
           light ? 'text-white' : 'text-ink'
         }`}
       >

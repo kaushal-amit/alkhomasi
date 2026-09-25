@@ -1,57 +1,95 @@
-const NAV = [
-  { label: 'Solutions', href: '#solutions' },
-  { label: 'AI Agents', href: '#ai-agents' },
-  { label: 'Automation', href: '#automation' },
-  { label: 'Business Software', href: '#business-software' },
-  { label: 'About', href: '#how-we-work' },
-  { label: 'Contact', href: '#contact' },
+import { Mail, Phone, MapPin, ArrowUpRight } from 'lucide-react'
+import Logo from './Logo.jsx'
+import { COMPANY } from '../data/site.js'
+
+const COLUMNS = [
+  {
+    title: 'Solutions',
+    links: [
+      { label: 'AI Solutions', href: '#svc-ai' },
+      { label: 'AI Agents', href: '#ai-agents' },
+      { label: 'Workflow Automation', href: '#automation' },
+      { label: 'Business Software', href: '#business-software' },
+      { label: 'Data & BI', href: '#insights' },
+      { label: 'System Integration', href: '#integration' },
+    ],
+  },
+  {
+    title: 'Company',
+    links: [
+      { label: 'Why AL-KHOMASI', href: '#why' },
+      { label: 'How We Work', href: '#how-we-work' },
+      { label: 'FAQ', href: '#faq' },
+      { label: 'Contact', href: '#contact' },
+    ],
+  },
 ]
 
 export default function Footer() {
   return (
-    <footer className="section-pad pt-16 pb-10 bg-navy-deep text-white/70">
-      <div className="section-max grid md:grid-cols-[1.2fr_1fr] gap-12">
+    <footer className="relative overflow-hidden bg-navy-ink section-pad pt-20 pb-10 text-white/65">
+      <div className="pointer-events-none absolute inset-0 bg-grid-dark opacity-40" />
+      <div className="pointer-events-none absolute -top-40 left-1/3 h-80 w-80 rounded-full bg-primary/20 blur-3xl" />
+
+      <div className="section-max relative grid gap-12 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.3fr]">
         <div>
-          <div className="flex items-center gap-2.5">
-            <span className="grid h-9 w-9 place-items-center rounded-lg bg-gradient-to-br from-bright to-primary text-white font-display font-bold text-sm">
-              AK
-            </span>
-            <span className="font-display font-semibold text-[15px] text-white">AL-KHOMASI</span>
-          </div>
-          <p className="mt-4 max-w-sm text-sm leading-relaxed">
-            AL-KHOMASI SOFTWARE PRIVATE LIMITED
-            <br />
-            AI Solutions &amp; Digital Transformation Partner
+          <Logo light />
+          <p className="mt-5 max-w-sm text-[14.5px] leading-relaxed">
+            {COMPANY.tagline}. We build intelligent business solutions that automate
+            workflows, connect systems and help organizations make faster, smarter decisions.
           </p>
-          <p className="mt-6 text-sm">
-            8878571610 &middot; info@alkhomasi.com
-          </p>
-          <p className="mt-1 max-w-xs text-sm leading-relaxed">
-            1st Floor, Utkarsh Arcade, New Shivaji Nagar, Thatipur, R.K. Puri,
-            Gwalior, Madhya Pradesh – 474011
-          </p>
+          <a
+            href="#contact"
+            className="mt-6 inline-flex items-center gap-2 rounded-full border border-white/15 px-5 py-2.5 text-[14px] font-semibold text-white transition-colors hover:border-sky/50 hover:text-sky"
+          >
+            Start a project <ArrowUpRight size={15} />
+          </a>
         </div>
 
-        <div className="md:justify-self-end">
-          <p className="text-xs font-semibold tracking-[0.1em] text-white/40">NAVIGATION</p>
-          <ul className="mt-4 grid grid-cols-2 gap-x-8 gap-y-3">
-            {NAV.map((item) => (
-              <li key={item.href}>
-                <a href={item.href} className="text-sm hover:text-white transition-colors">
-                  {item.label}
-                </a>
-              </li>
-            ))}
+        {COLUMNS.map((col) => (
+          <nav key={col.title} aria-label={col.title}>
+            <p className="text-[12px] font-semibold tracking-[0.14em] text-white/40">{col.title.toUpperCase()}</p>
+            <ul className="mt-5 space-y-3">
+              {col.links.map((l) => (
+                <li key={l.href}>
+                  <a href={l.href} className="text-[14.5px] transition-colors hover:text-white">
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        ))}
+
+        <div>
+          <p className="text-[12px] font-semibold tracking-[0.14em] text-white/40">GET IN TOUCH</p>
+          <ul className="mt-5 space-y-4 text-[14.5px]">
+            <li>
+              <a href={COMPANY.phoneHref} className="flex items-center gap-3 hover:text-white">
+                <Phone size={16} className="text-sky" /> {COMPANY.phoneDisplay}
+              </a>
+            </li>
+            <li>
+              <a href={`mailto:${COMPANY.email}`} className="flex items-center gap-3 hover:text-white">
+                <Mail size={16} className="text-sky" /> {COMPANY.email}
+              </a>
+            </li>
+            <li className="flex items-start gap-3 leading-relaxed">
+              <MapPin size={16} className="mt-1 shrink-0 text-sky" />
+              <address className="not-italic">
+                {COMPANY.addressLines[0]} {COMPANY.addressLines[1]}
+              </address>
+            </li>
           </ul>
         </div>
       </div>
 
-      <div className="section-max mt-14 flex flex-col-reverse gap-4 border-t border-white/10 pt-6 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-xs text-white/40">
-          © {new Date().getFullYear()} AL-KHOMASI SOFTWARE PRIVATE LIMITED
+      <div className="section-max relative mt-16 flex flex-col-reverse gap-4 border-t border-white/10 pt-6 sm:flex-row sm:items-center sm:justify-between">
+        <p className="text-[12.5px] text-white/40">
+          © {new Date().getFullYear()} {COMPANY.legalName}. All rights reserved.
         </p>
-        <p className="text-xs font-medium tracking-[0.08em] text-bright/80">
-          IDENTIFY. AUTOMATE. INTEGRATE. SCALE.
+        <p className="font-display text-[12px] font-semibold tracking-[0.14em] text-sky/80">
+          {COMPANY.motto.toUpperCase()}
         </p>
       </div>
     </footer>

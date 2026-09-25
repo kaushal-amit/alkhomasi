@@ -1,147 +1,107 @@
-import { useState } from 'react'
-import { Phone, Mail, MapPin, Send, CheckCircle2 } from 'lucide-react'
-import SectionHeading from './SectionHeading.jsx'
+import { Phone, Mail, MapPin, MessageCircle } from 'lucide-react'
 import Reveal from './Reveal.jsx'
+import ContactForm from './ContactForm.jsx'
+import { COMPANY } from '../data/site.js'
 
-const REQUIREMENT_TYPES = [
-  'AI Solution',
-  'AI Agent',
-  'Workflow Automation',
-  'Business Software',
-  'Data & Business Intelligence',
-  'System Integration',
-  'Digital Transformation',
-  'Other',
+const NEXT_STEPS = [
+  { title: 'We review your requirement', desc: 'Our team studies your process and goals.' },
+  { title: 'Discovery conversation', desc: 'A focused call to understand the details.' },
+  { title: 'Recommended approach', desc: 'A clear proposal with scope and next steps.' },
 ]
 
-export default function Contact() {
-  const [submitted, setSubmitted] = useState(false)
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    setSubmitted(true)
-  }
-
+export function ContactDetails({ compact = false }) {
+  const items = [
+    { icon: Mail, label: 'Send us an email', value: COMPANY.email, href: `mailto:${COMPANY.email}` },
+    { icon: Phone, label: 'Call us', value: COMPANY.phoneDisplay, href: COMPANY.phoneHref },
+    { icon: MessageCircle, label: 'WhatsApp', value: 'Chat with our team', href: COMPANY.whatsappHref, external: true },
+  ]
   return (
-    <section id="contact" className="section-pad py-24 md:py-32">
-      <div className="section-max grid lg:grid-cols-[0.85fr_1.15fr] gap-14">
-        <div>
-          <SectionHeading
-            eyebrow="Contact"
-            title="Let's talk about your business."
-            description="Tell us what you're trying to solve — we'll get back to you."
-          />
-
-          <Reveal delay={140} className="mt-10 space-y-5">
-            <div className="flex items-center gap-4">
-              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-primary/[0.08] text-primary">
-                <Phone size={17} />
-              </span>
-              <div>
-                <p className="text-xs text-mist">Phone</p>
-                <a href="tel:8878571610" className="text-[15px] font-medium text-ink hover:text-primary">
-                  8878571610
-                </a>
-              </div>
-            </div>
-            <div className="flex items-center gap-4">
-              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-primary/[0.08] text-primary">
-                <Mail size={17} />
-              </span>
-              <div>
-                <p className="text-xs text-mist">Email</p>
-                <a
-                  href="mailto:info@alkhomasi.com"
-                  className="text-[15px] font-medium text-ink hover:text-primary"
-                >
-                  info@alkhomasi.com
-                </a>
-              </div>
-            </div>
-            <div className="flex items-start gap-4">
-              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-primary/[0.08] text-primary">
-                <MapPin size={17} />
-              </span>
-              <div>
-                <p className="text-xs text-mist">Address</p>
-                <p className="text-[15px] font-medium leading-relaxed text-ink">
-                  1st Floor, Utkarsh Arcade, New Shivaji Nagar, Thatipur,
-                  <br />
-                  R.K. Puri, Gwalior, Madhya Pradesh – 474011
-                </p>
-              </div>
-            </div>
-          </Reveal>
-        </div>
-
-        <Reveal delay={100} className="card-surface p-6 md:p-9">
-          {submitted ? (
-            <div className="flex h-full min-h-[320px] flex-col items-center justify-center gap-3 text-center">
-              <span className="grid h-14 w-14 place-items-center rounded-full bg-primary/[0.08] text-primary">
-                <CheckCircle2 size={26} />
-              </span>
-              <h3 className="text-xl font-semibold text-ink">Message received</h3>
-              <p className="max-w-xs text-[15px] text-mist">
-                Thank you for reaching out. Our team will get back to you shortly.
-              </p>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="grid sm:grid-cols-2 gap-5">
-              <Field label="Name" name="name" required />
-              <Field label="Company / Organization" name="company" />
-              <Field label="Email" name="email" type="email" required />
-              <Field label="Phone" name="phone" type="tel" />
-
-              <label className="flex flex-col gap-1.5 sm:col-span-2">
-                <span className="text-[13px] font-medium text-ink/70">Requirement Type</span>
-                <select
-                  name="requirement"
-                  required
-                  defaultValue=""
-                  className="rounded-lg border border-ink/10 bg-white px-3.5 py-2.5 text-[14.5px] text-ink outline-none transition-colors focus:border-primary"
-                >
-                  <option value="" disabled>
-                    Select a requirement
-                  </option>
-                  {REQUIREMENT_TYPES.map((type) => (
-                    <option key={type} value={type}>
-                      {type}
-                    </option>
-                  ))}
-                </select>
-              </label>
-
-              <label className="flex flex-col gap-1.5 sm:col-span-2">
-                <span className="text-[13px] font-medium text-ink/70">Message</span>
-                <textarea
-                  name="message"
-                  rows={4}
-                  required
-                  className="resize-none rounded-lg border border-ink/10 bg-white px-3.5 py-2.5 text-[14.5px] text-ink outline-none transition-colors focus:border-primary"
-                />
-              </label>
-
-              <button type="submit" className="btn-primary sm:col-span-2 justify-center">
-                Send Message <Send size={15} />
-              </button>
-            </form>
-          )}
-        </Reveal>
-      </div>
-    </section>
+    <div className={`grid gap-3 ${compact ? 'grid-cols-1' : 'sm:grid-cols-3 lg:grid-cols-1'}`}>
+      {items.map((it) => (
+        <a
+          key={it.label}
+          href={it.href}
+          {...(it.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+          className="group flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.05] p-4 transition-colors hover:border-sky/40 hover:bg-white/[0.08]"
+        >
+          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-white/10 text-sky">
+            <it.icon size={17} />
+          </span>
+          <span className="min-w-0 leading-tight">
+            <span className="block text-[11.5px] text-white/50">{it.label}</span>
+            <span className="mt-1 block truncate text-[14px] font-semibold text-white group-hover:text-sky">{it.value}</span>
+          </span>
+        </a>
+      ))}
+    </div>
   )
 }
 
-function Field({ label, name, type = 'text', required }) {
+export default function Contact() {
   return (
-    <label className="flex flex-col gap-1.5">
-      <span className="text-[13px] font-medium text-ink/70">{label}</span>
-      <input
-        name={name}
-        type={type}
-        required={required}
-        className="rounded-lg border border-ink/10 bg-white px-3.5 py-2.5 text-[14.5px] text-ink outline-none transition-colors focus:border-primary"
-      />
-    </label>
+    <section id="contact" className="section-pad pb-24 md:pb-32 pt-4">
+      <Reveal className="section-max overflow-hidden rounded-[2rem] bg-navy-deep shadow-lift">
+        <div className="grid lg:grid-cols-[1fr_1.1fr]">
+          {/* Info panel */}
+          <div className="relative p-7 md:p-12">
+            <div className="pointer-events-none absolute inset-0 bg-dots-dark opacity-40" />
+            <div className="pointer-events-none absolute -left-24 top-10 h-72 w-72 rounded-full bg-primary/30 blur-3xl" />
+            <div className="relative">
+              <p className="eyebrow text-sky">
+                <span className="h-px w-6 bg-sky/60" /> Contact
+              </p>
+              <h2 className="mt-4 text-[2rem] md:text-[2.6rem] font-semibold leading-[1.08] tracking-tight text-white">
+                Let's talk about your business.
+              </h2>
+              <p className="mt-4 max-w-md text-[16px] leading-relaxed text-white/65">
+                Share what you're trying to solve. We'll come back with practical
+                ideas — no jargon, no obligation.
+              </p>
+
+              <p className="mt-10 text-[11.5px] font-semibold tracking-[0.14em] text-white/45">WHAT HAPPENS NEXT</p>
+              <ol className="mt-4 space-y-4">
+                {NEXT_STEPS.map((s, i) => (
+                  <li key={s.title} className="flex gap-4">
+                    <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-sky/40 font-display text-[12px] font-semibold text-sky">
+                      {i + 1}
+                    </span>
+                    <span>
+                      <span className="block text-[15px] font-semibold text-white">{s.title}</span>
+                      <span className="mt-0.5 block text-[13.5px] text-white/55">{s.desc}</span>
+                    </span>
+                  </li>
+                ))}
+              </ol>
+
+              <div className="mt-10">
+                <ContactDetails />
+              </div>
+
+              <div className="mt-6 flex items-start gap-3 text-[13.5px] leading-relaxed text-white/60">
+                <MapPin size={16} className="mt-0.5 shrink-0 text-sky" />
+                <address className="not-italic">
+                  {COMPANY.addressLines[0]}
+                  <br />
+                  {COMPANY.addressLines[1]}
+                </address>
+              </div>
+            </div>
+          </div>
+
+          {/* Form panel */}
+          <div className="bg-white p-7 md:p-12 lg:m-3 lg:rounded-[1.6rem]">
+            <h3 className="text-[1.6rem] md:text-[2rem] font-semibold leading-tight tracking-tight text-ink">
+              Share your vision &amp; <span className="gradient-text">get expert guidance.</span>
+            </h3>
+            <p className="mt-2 text-[15px] text-mist">
+              Tell us a little about your requirement and our team will reach out.
+            </p>
+            <div className="mt-8">
+              <ContactForm />
+            </div>
+          </div>
+        </div>
+      </Reveal>
+    </section>
   )
 }

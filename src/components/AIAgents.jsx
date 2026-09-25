@@ -1,142 +1,199 @@
 import { useEffect, useState } from 'react'
-import { Settings2, Headphones, TrendingUp, Wallet, BookOpen, CheckCircle2, Bot } from 'lucide-react'
+import { Settings2, Headphones, TrendingUp, Wallet, BookOpen, CheckCircle2, Bot, User, Loader2 } from 'lucide-react'
 import SectionHeading from './SectionHeading.jsx'
 import Reveal from './Reveal.jsx'
+
+const STEPS = ['Understanding the request', 'Retrieving information', 'Checking the workflow', 'Taking action']
 
 const TABS = [
   {
     key: 'operations',
     label: 'Operations',
     icon: Settings2,
+    blurb: 'Tracks approvals, chases delays and keeps work moving.',
     customer: 'A shipment approval has been pending for two days. Can this move forward?',
     agent:
       "I've reviewed the approval chain — the delay is with warehouse confirmation. I've flagged it to the responsible team and queued the next step so it proceeds automatically once confirmed.",
-    steps: ['Understanding request', 'Retrieving information', 'Checking workflow', 'Taking action'],
   },
   {
     key: 'customer-service',
     label: 'Customer Service',
     icon: Headphones,
-    customer: 'Can you help me with my request?',
+    blurb: 'Answers customers instantly and hands off complex cases.',
+    customer: "I placed an order last week and haven't received an update. Where is it?",
     agent:
-      'Of course. Let me check the relevant information and guide you through the next step.',
-    steps: ['Understanding request', 'Retrieving information', 'Checking workflow', 'Taking action'],
+      "Your order was dispatched yesterday and is scheduled for delivery on Thursday. I've sent the tracking details to your email and set a reminder to confirm once it arrives.",
   },
   {
     key: 'sales',
     label: 'Sales',
     icon: TrendingUp,
+    blurb: 'Keeps the pipeline current and follow-ups on time.',
     customer: 'Where does the proposal for the Gwalior account currently stand?',
     agent:
-      "It's with the client for review since Tuesday. I'll follow up on your behalf and update the pipeline the moment there's a response.",
-    steps: ['Understanding request', 'Retrieving information', 'Checking workflow', 'Taking action'],
+      "It's been with the client for review since Tuesday. I'll follow up on your behalf and update the pipeline the moment there's a response.",
   },
   {
     key: 'collections',
     label: 'Collections',
     icon: Wallet,
+    blurb: 'Identifies overdue accounts and drafts reminders.',
     customer: 'Which invoices are overdue this week?',
     agent:
       "I've identified the overdue accounts and drafted reminder communications. I'll route the two largest balances to your team for a direct follow-up.",
-    steps: ['Understanding request', 'Retrieving information', 'Checking workflow', 'Taking action'],
   },
   {
     key: 'knowledge',
     label: 'Knowledge',
     icon: BookOpen,
+    blurb: 'Finds answers across your internal documentation.',
     customer: "What's our current process for onboarding a new vendor?",
     agent:
       "Here's the current vendor onboarding process, drawn from your internal documentation, along with the approvals it requires at each stage.",
-    steps: ['Understanding request', 'Retrieving information', 'Checking workflow', 'Taking action'],
   },
 ]
 
 export default function AIAgents() {
   const [active, setActive] = useState(TABS[0].key)
   const [visibleSteps, setVisibleSteps] = useState(0)
+  const [typed, setTyped] = useState('')
   const tab = TABS.find((t) => t.key === active)
 
+  // Replay the agent "thinking" steps, then type out the reply
   useEffect(() => {
     setVisibleSteps(0)
-    const timers = tab.steps.map((_, i) =>
-      setTimeout(() => setVisibleSteps(i + 1), 280 * (i + 1))
-    )
-    return () => timers.forEach(clearTimeout)
-  }, [active])
+    setTyped('')
+    const timers = STEPS.map((_, i) => setTimeout(() => setVisibleSteps(i + 1), 350 * (i + 1)))
+    let typer
+    const start = setTimeout(() => {
+      let n = 0
+      typer = setInterval(() => {
+        n += 3
+        setTyped(tab.agent.slice(0, n))
+        if (n >= tab.agent.length) clearInterval(typer)
+      }, 16)
+    }, 350 * STEPS.length + 200)
+    return () => {
+      timers.forEach(clearTimeout)
+      clearTimeout(start)
+      clearInterval(typer)
+    }
+  }, [active, tab.agent])
+
+  const thinking = visibleSteps < STEPS.length
+  const typing = !thinking && typed.length < tab.agent.length
 
   return (
-    <section id="ai-agents" className="section-pad py-24 md:py-32 bg-haze/50">
+    <section id="ai-agents" className="section-pad py-24 md:py-32">
       <div className="section-max">
         <SectionHeading
           eyebrow="AI Agents"
           title="AI agents that work alongside your business."
-          description="Intelligent agents for operations, customer service, sales and collections."
+          description="Pick a department to see how an agent handles a real request — understanding it, finding the right information, checking your workflow and taking the next step."
         />
 
-        <Reveal delay={120} className="mt-14 grid lg:grid-cols-[280px_1fr] gap-6">
+        <Reveal delay={120} className="mt-14 grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-6">
           {/* Tab rail */}
-          <div className="flex lg:flex-col gap-2 overflow-x-auto no-scrollbar pb-2 lg:pb-0">
-            {TABS.map((t) => (
-              <button
-                key={t.key}
-                onClick={() => setActive(t.key)}
-                className={`flex shrink-0 items-center gap-3 rounded-xl px-4 py-3.5 text-left text-sm font-medium transition-all duration-300 ${
-                  active === t.key
-                    ? 'bg-navy text-white shadow-soft'
-                    : 'bg-white text-ink/70 border border-ink/[0.06] hover:border-primary/30 hover:text-primary'
-                }`}
-              >
-                <t.icon size={16} />
-                {t.label}
-              </button>
-            ))}
+          <div role="tablist" aria-label="Agent examples" className="no-scrollbar flex min-w-0 lg:flex-col gap-2 overflow-x-auto pb-2 lg:pb-0">
+            {TABS.map((t) => {
+              const on = active === t.key
+              return (
+                <button
+                  key={t.key}
+                  type="button"
+                  role="tab"
+                  aria-selected={on}
+                  onClick={() => setActive(t.key)}
+                  className={`flex shrink-0 items-start gap-3 rounded-2xl px-4 py-4 text-left transition-all duration-300 ${
+                    on
+                      ? 'bg-navy text-white shadow-lift'
+                      : 'bg-white text-ink/75 border border-ink/[0.07] hover:border-primary/30 hover:text-primary'
+                  }`}
+                >
+                  <span className={`grid h-9 w-9 shrink-0 place-items-center rounded-lg ${on ? 'bg-white/10 text-sky' : 'bg-haze text-primary'}`}>
+                    <t.icon size={16} />
+                  </span>
+                  <span>
+                    <span className="block text-[14.5px] font-semibold">{t.label}</span>
+                    <span className={`mt-0.5 hidden lg:block text-[12.5px] leading-snug ${on ? 'text-white/60' : 'text-mist'}`}>
+                      {t.blurb}
+                    </span>
+                  </span>
+                </button>
+              )
+            })}
           </div>
 
           {/* Demo panel */}
-          <div className="card-surface p-6 md:p-8">
-            <div className="flex items-center justify-between border-b border-ink/[0.06] pb-4">
-              <div className="flex items-center gap-2.5">
-                <span className="grid h-9 w-9 place-items-center rounded-lg bg-gradient-to-br from-navy to-primary text-white">
-                  <Bot size={16} />
+          <div className="relative min-w-0 overflow-hidden rounded-3xl bg-navy-deep p-5 md:p-8 shadow-lift">
+            <div className="pointer-events-none absolute inset-0 bg-grid-dark opacity-50" />
+            <div className="pointer-events-none absolute -top-24 right-0 h-64 w-64 rounded-full bg-bright/20 blur-3xl" />
+
+            <div className="relative flex items-center justify-between border-b border-white/10 pb-4">
+              <div className="flex items-center gap-3">
+                <span className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-primary to-bright text-white">
+                  <Bot size={18} />
                 </span>
                 <div className="leading-tight">
-                  <p className="text-sm font-semibold text-ink">
-                    {tab.label} Agent — capability example
-                  </p>
-                  <p className="text-xs text-mist">Illustrative solution area, not a live product</p>
+                  <p className="text-[15px] font-semibold text-white">{tab.label} Agent</p>
+                  <p className="text-[12px] text-white/50">Capability example · not a live product</p>
                 </div>
               </div>
-              <span className="hidden sm:flex h-2 w-2 rounded-full bg-bright animate-pulseSoft" />
+              <span className="flex items-center gap-2 rounded-full bg-white/[0.06] px-3 py-1.5 text-[11.5px] font-semibold text-sky">
+                <span className="h-1.5 w-1.5 rounded-full bg-sky animate-pulseSoft" /> Online
+              </span>
             </div>
 
-            <div className="mt-6 grid md:grid-cols-[1fr_220px] gap-6">
-              <div className="space-y-3">
-                <div className="ml-auto max-w-[85%] rounded-2xl rounded-tr-sm bg-primary/[0.08] px-4 py-3 text-[14.5px] text-ink">
-                  {tab.customer}
+            <div className="relative mt-6 grid md:grid-cols-[1fr_230px] gap-6">
+              <div className="flex min-h-[260px] flex-col gap-4" aria-live="polite">
+                <div className="flex items-end justify-end gap-2.5">
+                  <div className="max-w-[85%] rounded-2xl rounded-br-sm bg-white px-4 py-3 text-[14.5px] leading-relaxed text-ink">
+                    {tab.customer}
+                  </div>
+                  <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-white/10 text-white/70">
+                    <User size={14} />
+                  </span>
                 </div>
-                <div className="max-w-[90%] rounded-2xl rounded-tl-sm bg-navy px-4 py-3 text-[14.5px] leading-relaxed text-white">
-                  {tab.agent}
+                <div className="flex items-end gap-2.5">
+                  <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-gradient-to-br from-primary to-bright text-white">
+                    <Bot size={14} />
+                  </span>
+                  <div className="max-w-[90%] rounded-2xl rounded-bl-sm border border-white/10 bg-white/[0.07] px-4 py-3 text-[14.5px] leading-relaxed text-white">
+                    {thinking ? (
+                      <span className="flex items-center gap-2 text-white/60">
+                        <Loader2 size={14} className="animate-spin" /> Working on it…
+                      </span>
+                    ) : (
+                      <span className={typing ? 'caret' : ''}>{typed}</span>
+                    )}
+                  </div>
                 </div>
               </div>
 
-              <div className="rounded-xl border border-ink/[0.06] bg-haze/60 p-4">
-                <p className="text-[11px] font-semibold tracking-[0.1em] text-mist">AGENT ACTIVITY</p>
-                <ul className="mt-3 space-y-2.5">
-                  {tab.steps.map((step, i) => (
-                    <li
-                      key={step}
-                      className={`flex items-center gap-2 text-[13px] transition-opacity duration-300 ${
-                        i < visibleSteps ? 'opacity-100 text-ink' : 'opacity-35 text-mist'
-                      }`}
-                    >
-                      <CheckCircle2
-                        size={14}
-                        className={i < visibleSteps ? 'text-bright' : 'text-ink/20'}
-                      />
-                      {step}
-                    </li>
-                  ))}
+              <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+                <p className="text-[11px] font-semibold tracking-[0.14em] text-white/45">AGENT ACTIVITY</p>
+                <ul className="mt-4 space-y-3">
+                  {STEPS.map((step, i) => {
+                    const done = i < visibleSteps
+                    return (
+                      <li
+                        key={step}
+                        className={`flex items-center gap-2.5 text-[13px] transition-all duration-300 ${
+                          done ? 'text-white' : 'text-white/35'
+                        }`}
+                      >
+                        <CheckCircle2 size={15} className={done ? 'text-sky' : 'text-white/20'} />
+                        {step}
+                      </li>
+                    )
+                  })}
                 </ul>
+                <div className="mt-5 h-1 overflow-hidden rounded-full bg-white/10">
+                  <div
+                    className="h-full rounded-full bg-gradient-to-r from-bright to-sky transition-all duration-500"
+                    style={{ width: `${(visibleSteps / STEPS.length) * 100}%` }}
+                  />
+                </div>
               </div>
             </div>
           </div>
