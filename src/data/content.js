@@ -73,8 +73,17 @@ const content = {
       title: 'Daily Trading AI',
       category: 'trading',
       ai: true,
-      summary: 'An AI product that supports day-to-day trading with data-driven market analysis.',
-      services: ['AI Solutions', 'Data & BI'],
+      region: 'Kuwait',
+      platform: 'Web terminal',
+      summary:
+        'SPREAD, an AI-assisted intraday trading terminal for Boursa Kuwait. It captures live prices and order-book depth through the trading day, screens every listed stock against the desk’s trading rules, and lets traders ask an AI assistant about any stock.',
+      highlights: [
+        'Live prices and order-book depth captured through each session',
+        'Every stock screened against the desk’s rules, with real-time alerts',
+        'AI assistant that answers from live market data — and says so when it can’t',
+        'Real-time trading board with secure Google sign-in',
+      ],
+      services: ['AI Solutions', 'Data & BI', 'System Integration'],
     },
     {
       title: '121order',
